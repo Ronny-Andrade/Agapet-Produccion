@@ -23,6 +23,7 @@ import { useNavigation } from '@react-navigation/native';
 import {BottomNotification} from './BottomNotification';
 import {BottomPopup} from './BottomPopup';
 import {PetContext} from '../../context/PetContext';
+import {caminocompleto} from '../../../assets/caminocompleto.png'
 
 const popupList = [
     {
@@ -115,6 +116,8 @@ export const Timeline = () => {
 
 const {userInfo, logout} = useContext(AuthContext);
 const {pet} = PetContext();
+const [image, setImage] = useState(`../../../assets/caminocompleto.png`);
+
 
 const [isLoading, setisLoading] = useState(true);
 const [fases, setFases] = useState([]);
@@ -159,7 +162,7 @@ let tipoVisita = fases.filter(e => e.tipo =='V');
 let tipoContrato = fases.filter(e => e.tipo =='C');
 let tipoEntrega = fases.filter(e => e.tipo =='E');
 let tipoSeguimiento = fases.filter(e => e.tipo =='S');
-let path = 'caminocompleto.png';
+let path = require('../../../assets/caminocompleto.png');
 let colorFormulario = 'grey';
 let colorEntrevista = 'grey';
 let colorVisita = 'grey';
@@ -169,56 +172,56 @@ let colorSeguimiento = 'grey';
  
 tipoFormulario.forEach(e=>{
     if(e.estado == 'A'){
-        path = 'caminofase1aceptado.png';
+        path = require('../../../assets/caminofase1aceptado.png');
         colorFormulario = 'gold';
     }else if(e.estado == 'S'){
-        path = 'caminofase1noaceptado.png';
+        path = require('../../../assets/caminofase1noaceptado.png');
         colorFormulario = 'red';
     }
 })
 tipoEntrevista.forEach(e=>{
     if(e.estado == 'A'){
-        path = 'caminofase2aceptado.png';
+        path = require('../../../assets/caminofase2aceptado.png');
         colorEntrevista = 'gold';
     }else if(e.estado == 'S'){
-        path = 'caminofase2noaceptado.png';
+        path = require('../../../assets/caminofase2noaceptado.png');
         colorEntrevista = 'red';
     }
 })
 tipoVisita.forEach(e=>{
     if(e.estado == 'A'){
-        path = 'caminofase3aceptado.png';
+        path = require('../../../assets/caminofase3aceptado.png');
         colorVisita = 'gold';
     }else if(e.estado == 'S'){
-        path = 'caminofase3noaceptado.png';
+        path = require('../../../assets/caminofase3noaceptado.png');
         colorVisita = 'red';
     }
 })
 tipoContrato.forEach(e=>{
     if(e.estado == 'A'){
-        path = 'caminofase4aceptado.png';
+        path = require('../../../assets/caminofase4aceptado.png');
         colorContrato = 'gold';
     }else if(e.estado == 'S'){
-        path = 'caminofase4noaceptado.png';
+        path = require('../../../assets/caminofase4noaceptado.png');
         colorContrato = 'red';
     }
 })
 tipoEntrega.forEach(e=>{
     if(e.estado == 'A'){
-        path = 'caminofase5aceptado.png';
+        path = require('../../../assets/caminofase5aceptado.png');
         colorEntrega = 'gold';
     }else if(e.estado == 'S'){
-        path = 'caminofase5noaceptado.png';
+        path = require('../../../assets/caminofase5noaceptado.png');
         colorEntrega = 'red';
     }
 })
 
 tipoSeguimiento.forEach(e=>{
     if(e.estado == 'A'){
-        path = 'caminofase6aceptado.png';
+        path = require('../../../assets/caminofase6aceptado.png');
         colorSeguimiento = 'gold';
     }else if(e.estado == 'S'){
-        path = 'caminofase6noaceptado.png';
+        path = require('../../../assets/caminofase6noaceptado.png');
         colorSeguimiento = 'red';
     }
 })
@@ -277,7 +280,7 @@ tipoSeguimiento.forEach(e=>{
 
             <ScrollView style={style.scrollStyle} >
                 {/*BackGround*/}
-                <ImageBackground style={style.imgFondo} source={`../../../assets/${path}`} >
+                <ImageBackground style={style.imgFondo} source={path} >
                     <View style={{ width: '100%', marginTop: '6%' }}>
                         <View style={style.iconCaracte5d}>
                             <StatusBar barStyle='dark-content'></StatusBar>
