@@ -16,6 +16,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { AuthContext } from '../../context/AuthContext';
 
 const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
 
 
 export const Register = ({ navigation }) => {
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
   fondo2: {
       backgroundColor: '#fff',
       width: '100%',
-      height: '70%',
+      height: height*0.65,
       borderTopLeftRadius: 50,
       borderTopRightRadius: 50,
       overflow: "hidden",
@@ -206,6 +207,7 @@ const styles = StyleSheet.create({
       margin: 10,
       marginLeft: '10%',
       marginRight: '10%',
+      paddingLeft:10,
       borderWidth: 1,
       fontSize: width * 0.05,
       borderRadius: 12,
