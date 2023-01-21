@@ -47,7 +47,6 @@ export const AuthProvider = ({children}) => {
             console.log(`login error ${e}`);
             setIsLoading(false);
           });
-          //navigation.navigate('Home')  
       };
 
       const logout = () => {
@@ -55,8 +54,6 @@ export const AuthProvider = ({children}) => {
         AsyncStorage.removeItem('userInfo');
         setUserInfo({});
         setIsLoading(false);
-        navigation.navigate('Home')
-  
       };
 
       const isLoggedIn = async () => {
