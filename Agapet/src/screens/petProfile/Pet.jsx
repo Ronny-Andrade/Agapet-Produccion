@@ -100,7 +100,7 @@ export const Pet = () => {
                                     [... new Array(5)].map((star, index)=>{
                                         <View key={index+1}></View>
                                         return index < pet.deportivo ? 
-                                        <AntDesign name="star" size={15} color="yellow" key={index}/> : <AntDesign name="staro" size={15} color="black" key={index}/>
+                                        <AntDesign name="star" size={15} color="gold" key={index}/> : <AntDesign name="staro" size={15} color="black" key={index}/>
                                     })
                                 }
                             </View>
@@ -121,7 +121,7 @@ export const Pet = () => {
                                 [... new Array(5)].map((star, index)=>{
                                     <View key={index+1}></View>
                                     return index < pet.jugueton ? 
-                                    <AntDesign name="star" size={15} color="yellow" key={index}/> : <AntDesign name="staro" size={15} color="black" key={index}/>
+                                    <AntDesign name="star" size={15} color="gold" key={index}/> : <AntDesign name="staro" size={15} color="black" key={index}/>
                                 })
                             }
                             </View>
@@ -143,7 +143,7 @@ export const Pet = () => {
                                 [... new Array(5)].map((star, index)=>{
                                     <View key={index+1}></View>
                                     return index < pet.sociable ? 
-                                    <AntDesign name="star" size={15} color="yellow"  key={index}/> : <AntDesign name="staro" size={15} color="black" key={index}/>
+                                    <AntDesign name="star" size={15} color="gold"  key={index}/> : <AntDesign name="staro" size={15} color="black" key={index}/>
                                 })
                             }
                             </View>
@@ -162,7 +162,7 @@ export const Pet = () => {
                             {
                                 [... new Array(5)].map((star, index)=>{
                                     return index < pet.miedoso ? 
-                                    <AntDesign name="star" size={15} color="yellow" key={index} /> : <AntDesign name="staro" size={15} color="black" key={index}/>
+                                    <AntDesign name="star" size={15} color="gold" key={index} /> : <AntDesign name="staro" size={15} color="black" key={index}/>
                                 })
                             }
                             </View>
@@ -226,20 +226,13 @@ const style = StyleSheet.create({
       flexDirection: 'row'
   },
   image: {
-      width: 400,
-      height: 400,
-      borderBottomLeftRadius: 200,
-      borderBottomRightRadius: 200,
+      width: width,
+      height: width,
+      borderBottomLeftRadius: width*0.4,
+      borderBottomRightRadius: width*0.4,
       overflow: "hidden",
       top: 0,
       marginBottom: '10%'
-  },
-  image2: {
-      width: 200,
-      height: 200,
-      borderRadius: 100,
-      marginTop: '2%',
-      marginBottom: '2%'
   },
   input: {
       height: 45,
@@ -296,7 +289,7 @@ const style = StyleSheet.create({
       marginBottom: '5%',
   },
   backgroundContainer: {
-      top: 15,
+      //top: 15,
       bottom: 0,
       left: 0,
       right: 0,
@@ -305,8 +298,8 @@ const style = StyleSheet.create({
       margin: '3%',
       backgroundColor: '#F6F3F4',
       borderRadius: 10,
-      width: 60,
-      height: 60,
+      width: width*0.21,
+      height: width*0.2,
       alignItems: 'center',
       justifyContent: 'center'
   },
