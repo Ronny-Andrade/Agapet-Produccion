@@ -235,7 +235,7 @@ const style = StyleSheet.create({
   },
   fondo2: {
     backgroundColor: '#fff',
-    width: '100%',
+    width: width,
     height: height*0.7,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
