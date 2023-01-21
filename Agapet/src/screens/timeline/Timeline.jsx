@@ -215,7 +215,6 @@ tipoEntrega.forEach(e=>{
         colorEntrega = 'red';
     }
 })
-
 tipoSeguimiento.forEach(e=>{
     if(e.estado == 'A'){
         path = require('../../../assets/caminofase6aceptado.png');
@@ -612,7 +611,7 @@ tipoSeguimiento.forEach(e=>{
                     </View>
 
                 </ImageBackground>
-                <View style={{ height:height*0.15}}>
+                <View style={{ height:height*0.07}}>
 
                 </View>
 
@@ -933,7 +932,7 @@ const style = StyleSheet.create({
 
     },
     imgFondo: {
-        marginTop: '3%',
+        marginTop: '1%',
         width: width,
         height:height
     },

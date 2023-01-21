@@ -127,6 +127,7 @@ export const Register = ({ navigation }) => {
 
               <View style={styles.boton}>
               <Button
+              color={'#5FAFB9'}
                 title="Registrar"
                 onPress={() => {
                   validate()
@@ -215,6 +216,7 @@ const styles = StyleSheet.create({
       borderColor: 'grey'
   },
   boton: {
+      
       marginLeft: '10%',
       marginRight: '10%',
       padding: 20,
