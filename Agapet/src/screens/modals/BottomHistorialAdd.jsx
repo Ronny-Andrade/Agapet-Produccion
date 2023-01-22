@@ -134,7 +134,7 @@ export class BottomHistorialAdd extends React.Component {
                     <View style={style.iconCaracte7}>
                         <Image style={style.imgIcon2}
 
-                            source={require('../assets/camara-fotografica.png')}
+                            source={require('../../../assets/camara-fotografica.png')}
                         />
                     </View>
                 </View>
