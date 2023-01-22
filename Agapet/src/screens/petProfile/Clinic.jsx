@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import { PetContext } from '../../context/PetContext';
 import { BottomHistorial } from '../modals/BottomHistorial';
+import { BottomHistorialAdd } from '../modals/BottomHistorialAdd';
 import { useNavigation } from '@react-navigation/native';
 
 const { height, width } = Dimensions.get('window');
@@ -55,7 +56,7 @@ export const Clinic = () => {
 
     const comprobarEstado = (estado) => {
         console.log(estado);
-        if (estado == 'S' ) return true;
+        if (estado == 'S') return true;
         else return false;
     };
 
@@ -150,6 +151,45 @@ export const Clinic = () => {
         );
     }
 
+    function vacunasCaducadas(titulo, fecha, clinica, llave, descripcion) {
+        let popupRef = React.createRef()
+        const onShowPopup = () => {
+            popupRef.show()
+        }
+        const onClosePopup = () => {
+            popupRef.close()
+        }
+
+        return (
+            <View style={style.fondo3} key={vacuna.vacuna_id}>
+                <StatusBar barStyle='dark-content'></StatusBar>
+                <SafeAreaView >
+                    <TouchableWithoutFeedback>
+
+                        <View style={style.contenedorCaract}>
+                            <View style={style.caracte}>
+                                <View style={style.iconCaracte}>
+                                    <Image style={style.imgIcon2}
+
+                                        source={require('../../../assets/alerta.png')}
+                                    />
+                                </View>
+                                <View style={style.iconCaracte2}>
+                                    <Text style={{ fontWeight: "bold", fontSize: width * 0.035, margin: '1%' }}> No olvidar</Text>
+                                    <Text style={{ fontSize: width * 0.03, margin: '1%' }}> Vacuna: {vacuna.nombre_vacuna}</Text>
+                                </View>
+                                <View style={style.iconCaracte3}>
+                                    <Text style={{ fontWeight: "bold", color: "orange", fontSize: width * 0.03 }}>{vacuna.fecha}</Text>
+                                </View>
+                            </View>
+
+                        </View>
+                    </TouchableWithoutFeedback>
+                </SafeAreaView>
+            </View>
+            
+        );
+    }
     return (
         <View style={style.fondo}>
             <View style={style.backgroundContainer}>
@@ -281,7 +321,7 @@ export const Clinic = () => {
                                 <View style={{ flexDirection: "row" }}>
                                     <Text style={{ fontWeight: "bold", fontSize: width * 0.035, margin: '1%' }}> Desparacitado</Text>
                                     <View style={{ justifyContent: 'center' }}>
-                                    {
+                                        {
                                             compararFechas(pet.fecha_desparacitado) ?
                                                 (
                                                     <Image style={style.imgIcon4}
