@@ -397,7 +397,7 @@ tipoSeguimiento.forEach(e=>{
                                     <View style={{ flexDirection: "row", alignItems: 'center' }}>
 
                                         <View style={{ justifyContent: 'center' }}>
-                                            <Image style={style.imgIcon7Actual}
+                                            <Image style={style.imgIcon7}
                                                 source={require('../../../assets/acuerdo.png')}
                                              />
                                         </View>
