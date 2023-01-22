@@ -52,6 +52,13 @@ export const Clinic = () => {
         if (fecha_actual > mi_fecha) return true;
         else if (fecha_actual < mi_fecha) return false;
     };
+
+    const comprobarEstado = (estado) => {
+        console.log(estado);
+        if (estado == 'S' ) return true;
+        else return false;
+    };
+
     compararFechas("2023-01-1");
 
     function vacunasHistorial(titulo, fecha, clinica, llave, descripcion) {
@@ -197,16 +204,16 @@ export const Clinic = () => {
                                     <Text style={{ fontWeight: "bold", fontSize: width * 0.035, margin: '1%' }}> Esterelizado</Text>
                                     <View style={{ justifyContent: 'center' }}>
                                         {
-                                            compararFechas(pet.fecha_esterelizado) ?
+                                            comprobarEstado(pet.esterelizado) ?
                                                 (
                                                     <Image style={style.imgIcon4}
-                                                        source={require('../../../assets/nocheck.png')}
+                                                        source={require('../../../assets/check.png')}
                                                     />
                                                 )
                                                 :
                                                 (
                                                     <Image style={style.imgIcon4}
-                                                        source={require('../../../assets/check.png')}
+                                                        source={require('../../../assets/nocheck.png')}
                                                     />
                                                 )
                                         }
@@ -224,12 +231,12 @@ export const Clinic = () => {
                                     </TouchableWithoutFeedback>
                                 </SafeAreaView>
                                 {
-                                    compararFechas(pet.fecha_esterelizado) ?
+                                    comprobarEstado(pet.esterelizado) ?
                                         (
                                             <BottomHistorial
                                                 title='Esterelizado'
                                                 estado='Adoptado'
-                                                verificado={require('../../../assets/nocheck.png')}
+                                                verificado={require('../../../assets/check.png')}
                                                 src={require('../../../assets/tijeras.png')}
                                                 desp={pet.descripcion_esterelizado}
                                                 lugar={pet.lugar_esterelizado}
@@ -244,7 +251,7 @@ export const Clinic = () => {
                                             <BottomHistorial
                                                 title='Esterelizado'
                                                 estado='Adoptado'
-                                                verificado={require('../../../assets/check.png')}
+                                                verificado={require('../../../assets/nocheck.png')}
                                                 src={require('../../../assets/tijeras.png')}
                                                 desp={pet.descripcion_esterelizado}
                                                 lugar={pet.lugar_esterelizado}
