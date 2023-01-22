@@ -405,7 +405,7 @@ tipoSeguimiento.forEach(e=>{
                                             size={width * 0.05}
                                             name='arrow-left-bold'
                                             color={colorContrato} />
-                                        <Text style={{ color: colorContrato, fontWeight: "bold", fontSize: width * 0.035, marginBottom: '1%' }}> Firma de contrato</Text>
+                                        <Text style={{ color: colorContrato,  fontSize: width * 0.035, marginBottom: '1%' }}> Firma de contrato</Text>
                                         <View style={{ position: 'absolute', alignSelf: 'flex-end', paddingLeft: width * 0.1 }}>
                                         { 
                                         tipoContrato.map((Contrato)=>{

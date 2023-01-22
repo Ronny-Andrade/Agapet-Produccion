@@ -61,7 +61,7 @@ export const Clinic = () => {
 
     compararFechas("2023-01-1");
 
-    function vacunasHistorial(titulo, fecha, clinica, llave, descripcion) {
+    function vacunasHistorial(titulo, fecha, clinica, llave, descripcion,imagen) {
         let popupRef = React.createRef()
         const onShowPopup = () => {
             popupRef.show()
@@ -121,6 +121,7 @@ export const Clinic = () => {
                                         desp={descripcion}
                                         lugar={clinica}
                                         fecha={fecha}
+                                        imagen={imagen}
                                         ref={(target) => popupRef = target}
                                         onTouchOutside={onClosePopup}
 
@@ -136,6 +137,7 @@ export const Clinic = () => {
                                         fecha={fecha}
                                         desp={descripcion}
                                         lugar={clinica}
+                                        imagen={imagen}
                                         ref={(target) => popupRef = target}
                                         onTouchOutside={onClosePopup}
 
@@ -150,7 +152,7 @@ export const Clinic = () => {
         );
     }
 
-    function vacunasCaducadas(vacuna,fecha,vacuna_id) {
+    function vacunasCaducadas(vacuna,fecha,vacuna_id,descripcion,lugar,pet,animal,user,vacunadatos) {
         let popupRef = React.createRef()
         const onShowPopup = () => {
             popupRef.show()
@@ -190,6 +192,13 @@ export const Clinic = () => {
             <BottomHistorialAdd
                 title={vacuna}
                 idvacuna={vacuna_id}
+                dep={descripcion}
+                fecha={fecha}
+                lugar={lugar}
+                pet={pet}
+                animal={animal}
+                user={user}
+                arreglo={vacunadatos}
                 estado='Adoptado'
                 src={require('../../../assets/vacuna.png')}
                 ref={(target) => popupRef = target}
@@ -211,8 +220,7 @@ export const Clinic = () => {
                     clinic.map((vacuna) => {
                         if (new Date(vacuna.fecha) <= fecha_hoy) {
                             return (
-                                vacunasCaducadas(vacuna.nombre_vacuna,vacuna.fecha,vacuna.vacuna_id)
-                                
+                                vacunasCaducadas(vacuna.nombre_vacuna,vacuna.fecha,vacuna.vacuna_id,vacuna.descripcion_vacuna,vacuna.lugar_vacuna,vacuna.idpet,vacuna.idanimal,vacuna.iduser,vacuna)
                             )
                         }
                     })
@@ -381,7 +389,7 @@ export const Clinic = () => {
                     {
                         clinic.map((vacuna) => {
                             return (
-                                vacunasHistorial(vacuna.nombre_vacuna, vacuna.fecha, vacuna.lugar_vacuna, vacuna.vacuna_id, vacuna.descripcion_vacuna)
+                                vacunasHistorial(vacuna.nombre_vacuna, vacuna.fecha, vacuna.lugar_vacuna, vacuna.vacuna_id, vacuna.descripcion_vacuna,vacuna.imagen64)
 
                             )
                         })

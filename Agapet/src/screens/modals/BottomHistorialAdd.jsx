@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
 import {
     Modal,
     Dimensions,
@@ -14,8 +16,6 @@ import {
     Button
 
 } from 'react-native'
-
-
 const deviceHeight = Dimensions.get('window').height
 const width = Dimensions.get('window').width
 
@@ -41,6 +41,10 @@ const popupList = [
     }
 ]
 
+
+
+
+  
 export class BottomHistorialAdd extends React.Component {
     constructor(props) {
         super(props)
@@ -48,6 +52,7 @@ export class BottomHistorialAdd extends React.Component {
             show: false
         }
     }
+
 
     show = () => {
         this.setState({ show: true })
@@ -69,6 +74,8 @@ export class BottomHistorialAdd extends React.Component {
         )
     }
 
+
+
     renderTitle = () => {
         const { title } = this.props
         return (
@@ -87,12 +94,9 @@ export class BottomHistorialAdd extends React.Component {
     }
 
 
+
     renderContent = () => {
-        const { data } = this.props
-        const { estado } = this.props
-        const { title } = this.props
-        const { src } = this.props
-        const { idvacuna } = this.props
+        const { data, estado, title, src, idvacuna, dep, fecha, lugar, pet, animal, user,arreglo} = this.props
         return (
             <View style={style.fondo6}>
                 <View style={style.contenedorCaract}>
@@ -133,19 +137,18 @@ export class BottomHistorialAdd extends React.Component {
                     <Text style={{ fontSize: width * 0.035, paddingRight: 10 }}> Evidencia:</Text>
                     <View style={style.iconCaracte7}>
                         <Image style={style.imgIcon2}
-
                             source={require('../../../assets/camara-fotografica.png')}
                         />
                     </View>
                 </View>
 
                 <View style={style.boton}>
-                        <Button
-                            color={"#5FAFB9"}
-                            margin={'2%'}
-                            title="Guardar"
-                        />
-                    </View>
+                    <Button
+                        color={"#5FAFB9"}
+                        margin={'2%'}
+                        title="Guardar"
+                    />
+                </View>
 
             </View>
         )
@@ -188,6 +191,10 @@ export class BottomHistorialAdd extends React.Component {
     render() {
         let { show } = this.state
         let { onTouchOutside, title, estado, verificado } = this.props
+        
+
+
+
         return (
             <Modal
                 animationType={"fade"}
@@ -283,7 +290,7 @@ const style = StyleSheet.create({
         //alignItems: 'left',
         //marginLeft: '2%',
         marginTop: '13%',
-        marginLeft:'5%',
+        marginLeft: '5%',
         height: '70%'
 
     },

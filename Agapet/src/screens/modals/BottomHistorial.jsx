@@ -87,7 +87,7 @@ export class BottomHistorial extends React.Component {
 
 
     renderContent = () => {
-        const { estado, title, src, verificado,desp, fecha, lugar} = this.props
+        const { estado, title, src, verificado,desp, fecha, lugar,imagen} = this.props
 
         return (
             <View style={style.fondo6}>
@@ -141,8 +141,10 @@ export class BottomHistorial extends React.Component {
                 </SafeAreaView>
                 <BottomImagen
                     title='¡Felicitaciones!'
+                    
                     estado='No iniciado'
                     src={require('../../../assets/fotousuario.jpg')}
+                    //src={{uri: `https://agapet.pythonanywhere.com/${imagen}`}}
                     ref={(target) => popupRef7 = target}
                     onTouchOutside={onClosePopup7}
                     data={popupList}
