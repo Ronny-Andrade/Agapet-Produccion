@@ -141,7 +141,7 @@ export class BottomHistorial extends React.Component {
                 </SafeAreaView>
                 <BottomImagen
                     title='¡Felicitaciones!'
-                    
+                    imagen ={imagen}
                     estado='No iniciado'
                     src={require('../../../assets/fotousuario.jpg')}
                     //src={{uri: `https://agapet.pythonanywhere.com/${imagen}`}}

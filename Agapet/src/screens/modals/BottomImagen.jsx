@@ -90,15 +90,27 @@ export class BottomImagen extends React.Component {
         const { estado } = this.props
         const { title } = this.props
         const { src } = this.props
+        const { imagen } = this.props
         const { verficado } = this.props
-        return (
-            <Image style={style.imgIcon2}
-                source={ src }
-            />
-            
 
-
-        )
+        {
+            if(imagen){
+                return (
+                    <Image 
+                    style={style.imgIcon2}
+                    source={{uri: imagen}}
+                    />
+                )
+            }else{
+                return (
+                    <Image 
+                    style={style.imgIcon2}
+                    source={src}
+                    />
+                )
+            }
+        }
+        
     }
 
     renderItem = ({ item }) => {
