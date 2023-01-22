@@ -31,7 +31,7 @@ export const ProfileUser = () => {
   const [direction, setDirection] = useState('');
 
   // Imagenes
-  const [image, setImage] = useState(' ');
+  const [image, setImage] = useState('');
 
   const selectImage = async () => {
 
@@ -129,7 +129,7 @@ export const ProfileUser = () => {
         {
 
           // Inputs de edad
-          dataUser.imagen64 ?
+          (dataUser.imagen64 && !image) ?
             (
               <TouchableOpacity
                 onPress={selectImage}>
