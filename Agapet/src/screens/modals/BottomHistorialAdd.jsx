@@ -13,7 +13,8 @@ import {
     StatusBar,
     TextInput,
     SafeAreaView,
-    Button
+    Button,
+    TouchableOpacity,
 
 } from 'react-native'
 const deviceHeight = Dimensions.get('window').height
@@ -49,6 +50,10 @@ export class BottomHistorialAdd extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            descipcion: '',
+            fecha: '',
+            lugar: '',
+            imagen: '',
             show: false
         }
     }
@@ -93,10 +98,60 @@ export class BottomHistorialAdd extends React.Component {
         )
     }
 
-
-
+    
     renderContent = () => {
         const { data, estado, title, src, idvacuna, dep, fecha, lugar, pet, animal, user,arreglo} = this.props
+
+        const selectImage = async () => {
+
+            let result = await ImagePicker.launchImageLibraryAsync({
+              mediaTypes: ImagePicker.MediaTypeOptions.All,
+              allowsEditing: true,
+              aspect: [4, 3],
+              quality: 1,
+            });
+        
+            console.log(result);
+        
+            if (!result.canceled) {
+              this.setState({imagen: result.assets[0].uri})
+            }
+          };
+
+        const update = (fecha, lugar,descipcion, imagen) =>{
+            let url = `https://agapet.pythonanywhere.com/vacuna/actualizar/${idvacuna}/`;
+            let bodyFormData = new FormData()
+            if(this.state.fecha.length > 0){
+                bodyFormData.append('fecha', fecha)
+              }
+              if(this.state.lugar.length > 0){
+                bodyFormData.append('lugar_vacuna',lugar)
+              }
+              if(this.state.descipcion.length > 0){
+                bodyFormData.append('descripcion_vacuna',descipcion)
+              }
+              if(this.state.imagen.length>0){
+                bodyFormData.append('imagen64',imagen)
+              }
+            axios({
+              method: 'put',
+              url: url,
+              data: bodyFormData,
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              },
+            }).then(response => {
+              console.log(response);
+              alert('Datos actualizados');
+            })
+            .catch(error => {
+              console.log(error);
+              alert(error);
+            });
+            
+          };
+
+    
         return (
             <View style={style.fondo6}>
                 <View style={style.contenedorCaract}>
@@ -117,33 +172,47 @@ export class BottomHistorialAdd extends React.Component {
                 <View style={{ justifyContent: 'flex-start', alignSelf: 'flex-start', flexDirection: "row", marginLeft: '5%', marginBottom: '2%' }}>
                     <Text style={{ fontSize: width * 0.035, paddingRight: 25 }}> Fecha:</Text>
                     <TextInput
-                        style={style.input}
+                    style={style.input}
+                    value={this.state.fecha}
+                    placeholder=' Fecha: YYYY-MM-DD'
+                    onChangeText={text => this.setState({fecha: text})}
                     />
                 </View>
                 <View style={{ justifyContent: 'flex-start', alignSelf: 'flex-start', flexDirection: "row", marginLeft: '5%', marginBottom: '2%' }}>
                     <Text style={{ fontSize: width * 0.035, paddingRight: 27 }}> Lugar:</Text>
                     <TextInput
-                        style={style.input}
+                    style={style.input}
+                    value={this.state.lugar}
+                    placeholder=' Lugar de vacunacion'
+                    onChangeText={text => this.setState({lugar: text})}
                     />
                 </View>
                 <View style={{ justifyContent: 'flex-start', alignSelf: 'flex-start', flexDirection: "row", marginLeft: '5%', marginBottom: '2%' }}>
                     <Text style={{ fontSize: width * 0.035, paddingRight: 10 }}> Descripción:</Text>
                     <TextInput
-                        multiline
-                        style={style.input2}
+                    style={style.input}
+                    value={this.state.descipcion}
+                    placeholder=' Descripcion de vacuna'
+                    onChangeText={text => this.setState({descipcion: text})}
                     />
                 </View>
                 <View style={{ margin: '5%', flexDirection: "row" }}>
                     <Text style={{ fontSize: width * 0.035, paddingRight: 10 }}> Evidencia:</Text>
                     <View style={style.iconCaracte7}>
-                        <Image style={style.imgIcon2}
+                       <TouchableOpacity
+                            onPress={selectImage}>
+                            <Image 
+                            style={style.imgIcon2}
                             source={require('../../../assets/camara-fotografica.png')}
-                        />
+                            />
+                        </TouchableOpacity> 
                     </View>
                 </View>
 
                 <View style={style.boton}>
                     <Button
+                        onPress={() => {
+                            update(this.state.fecha,this.state.lugar,this.state.descipcion, this.state.imagen)}}
                         color={"#5FAFB9"}
                         margin={'2%'}
                         title="Guardar"
