@@ -55,7 +55,6 @@ export const Clinic = () => {
     };
 
     const comprobarEstado = (estado) => {
-        console.log(estado);
         if (estado == 'S') return true;
         else return false;
     };
@@ -151,7 +150,7 @@ export const Clinic = () => {
         );
     }
 
-    function vacunasCaducadas(titulo, fecha, clinica, llave, descripcion) {
+    function vacunasCaducadas(vacuna,fecha,vacuna_id) {
         let popupRef = React.createRef()
         const onShowPopup = () => {
             popupRef.show()
@@ -161,32 +160,44 @@ export const Clinic = () => {
         }
 
         return (
-            <View style={style.fondo3} key={vacuna.vacuna_id}>
-                <StatusBar barStyle='dark-content'></StatusBar>
-                <SafeAreaView >
-                    <TouchableWithoutFeedback>
+            
+            <View style={style.fondo3} key={vacuna_id}>
 
-                        <View style={style.contenedorCaract}>
-                            <View style={style.caracte}>
-                                <View style={style.iconCaracte}>
-                                    <Image style={style.imgIcon2}
+            <StatusBar barStyle='dark-content'></StatusBar>
+            <SafeAreaView >
+                <TouchableWithoutFeedback onPress={onShowPopup}>
 
-                                        source={require('../../../assets/alerta.png')}
-                                    />
-                                </View>
-                                <View style={style.iconCaracte2}>
-                                    <Text style={{ fontWeight: "bold", fontSize: width * 0.035, margin: '1%' }}> No olvidar</Text>
-                                    <Text style={{ fontSize: width * 0.03, margin: '1%' }}> Vacuna: {vacuna.nombre_vacuna}</Text>
-                                </View>
-                                <View style={style.iconCaracte3}>
-                                    <Text style={{ fontWeight: "bold", color: "orange", fontSize: width * 0.03 }}>{vacuna.fecha}</Text>
-                                </View>
+                    <View style={style.contenedorCaract}>
+                        <View style={style.caracte}>
+                            <View style={style.iconCaracte}>
+                                <Image style={style.imgIcon2}
+
+                                    source={require('../../../assets/alerta.png')}
+                                />
                             </View>
-
+                            <View style={style.iconCaracte2}>
+                                <Text style={{ fontWeight: "bold", fontSize: width * 0.035, margin: '1%' }}> No olvidar</Text>
+                                <Text style={{ fontSize: width * 0.03, margin: '1%' }}>Vacuna: {vacuna}</Text>
+                            </View>
+                            <View style={style.iconCaracte3}>
+                                <Text style={{ fontWeight: "bold", color: "orange", fontSize: width * 0.03 }}> {fecha}</Text>
+                            </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </SafeAreaView>
-            </View>
+
+                    </View>
+                </TouchableWithoutFeedback>
+            </SafeAreaView>
+            <BottomHistorialAdd
+                title={vacuna}
+                idvacuna={vacuna_id}
+                estado='Adoptado'
+                src={require('../../../assets/vacuna.png')}
+                ref={(target) => popupRef = target}
+                onTouchOutside={onClosePopup}
+            />
+
+
+        </View>
             
         );
     }
@@ -200,32 +211,8 @@ export const Clinic = () => {
                     clinic.map((vacuna) => {
                         if (new Date(vacuna.fecha) <= fecha_hoy) {
                             return (
-                                <View style={style.fondo3} key={vacuna.vacuna_id}>
-                                    <StatusBar barStyle='dark-content'></StatusBar>
-                                    <SafeAreaView >
-                                        <TouchableWithoutFeedback>
-
-                                            <View style={style.contenedorCaract}>
-                                                <View style={style.caracte}>
-                                                    <View style={style.iconCaracte}>
-                                                        <Image style={style.imgIcon2}
-
-                                                            source={require('../../../assets/alerta.png')}
-                                                        />
-                                                    </View>
-                                                    <View style={style.iconCaracte2}>
-                                                        <Text style={{ fontWeight: "bold", fontSize: width * 0.035, margin: '1%' }}> No olvidar</Text>
-                                                        <Text style={{ fontSize: width * 0.03, margin: '1%' }}> Vacuna: {vacuna.nombre_vacuna}</Text>
-                                                    </View>
-                                                    <View style={style.iconCaracte3}>
-                                                        <Text style={{ fontWeight: "bold", color: "orange", fontSize: width * 0.03 }}>{vacuna.fecha}</Text>
-                                                    </View>
-                                                </View>
-
-                                            </View>
-                                        </TouchableWithoutFeedback>
-                                    </SafeAreaView>
-                                </View>
+                                vacunasCaducadas(vacuna.nombre_vacuna,vacuna.fecha,vacuna.vacuna_id)
+                                
                             )
                         }
                     })

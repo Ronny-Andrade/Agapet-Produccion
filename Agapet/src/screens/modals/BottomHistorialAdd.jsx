@@ -92,7 +92,7 @@ export class BottomHistorialAdd extends React.Component {
         const { estado } = this.props
         const { title } = this.props
         const { src } = this.props
-        const { verficado } = this.props
+        const { idvacuna } = this.props
         return (
             <View style={style.fondo6}>
                 <View style={style.contenedorCaract}>

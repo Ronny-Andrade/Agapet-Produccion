@@ -185,7 +185,7 @@ export const ProfileUser = () => {
                     <TextInput
                       style={style.input}
                       value={age}
-                      placeholder={dataUser.age}
+                      placeholder={dataUser.age.toString()}
                       onChangeText={text => setAge(text)}
                     />
                   ) :
