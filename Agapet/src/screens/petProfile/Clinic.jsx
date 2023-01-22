@@ -13,185 +13,350 @@ import {
     StatusBar,
     SafeAreaView
 } from 'react-native';
-import {PetContext} from '../../context/PetContext';
+import { PetContext } from '../../context/PetContext';
+import { BottomHistorial } from '../modals/BottomHistorial';
 import { useNavigation } from '@react-navigation/native';
 
-const {height,width}= Dimensions.get('window');
-var FONT_BACK_LABEL   = 18;
+const { height, width } = Dimensions.get('window');
+var FONT_BACK_LABEL = 18;
 if (PixelRatio.get() <= 2) {
-  FONT_BACK_LABEL = 14;
+    FONT_BACK_LABEL = 14;
+}
+
+let popupRef = React.createRef()
+const onShowPopup = () => {
+    popupRef.show()
+}
+const onClosePopup = () => {
+    popupRef.close()
+}
+
+let popupRef2 = React.createRef()
+const onShowPopup2 = () => {
+    popupRef2.show()
+}
+const onClosePopup2 = () => {
+    popupRef2.close()
 }
 
 
+
 export const Clinic = () => {
-  const {pet,clinic,isLoading} = PetContext();
-  const navigation = useNavigation();
-  let fecha_hoy = new Date();
+    const { pet, clinic, isLoading } = PetContext();
+    const navigation = useNavigation();
+    let fecha_hoy = new Date();
 
-  const compararFechas=(fecha)=>{
-    let fecha_actual = new Date();
-    let mi_fecha = new Date(fecha);
-    if (fecha_actual > mi_fecha) return true;
-    else if (fecha_actual < mi_fecha) return false;
-  };
-  compararFechas("2023-01-1");
+    const compararFechas = (fecha) => {
+        let fecha_actual = new Date();
+        let mi_fecha = new Date(fecha);
+        if (fecha_actual > mi_fecha) return true;
+        else if (fecha_actual < mi_fecha) return false;
+    };
+    compararFechas("2023-01-1");
 
+    function vacunasHistorial(titulo, fecha, clinica, llave, descripcion) {
+        let popupRef = React.createRef()
+        const onShowPopup = () => {
+            popupRef.show()
+        }
+        const onClosePopup = () => {
+            popupRef.close()
+        }
 
-  return (
-    <View style={style.fondo}>
-    <View style={style.backgroundContainer}>
-        <View style={style.fondo5}>
-            <Text style={style.titulo}>Historial Clinico</Text>
-        </View>
-            {
-                clinic.map((vacuna)=>{
-                    if(new Date(vacuna.fecha) <= fecha_hoy ){
-                        return (
-                    <View style={style.fondo3} key={vacuna.vacuna_id}>
-                    <StatusBar barStyle='dark-content'></StatusBar>
-                    <SafeAreaView >
-                        <TouchableWithoutFeedback>
-
-                            <View style={style.contenedorCaract}>
-                                <View style={style.caracte}>
-                                    <View style={style.iconCaracte}>
-                                        <Image style={style.imgIcon2}
-
-                                            source={require('../../../assets/alerta.png')}
-                                        />
-                                    </View>
-                                    <View style={style.iconCaracte2}>
-                                        <Text style={{ fontWeight: "bold", fontSize: width * 0.035, margin: '1%' }}> No olvidar</Text>
-                                        <Text style={{ fontSize: width * 0.03, margin: '1%' }}> Vacuna: {vacuna.nombre_vacuna}</Text>
-                                    </View>
-                                    <View style={style.iconCaracte3}>
-                                        <Text style={{ fontWeight: "bold", color: "orange", fontSize: width * 0.03 }}>{vacuna.fecha}</Text>
-                                    </View>
-                                </View>
-
-                            </View>
-                        </TouchableWithoutFeedback>
-                    </SafeAreaView>
-                </View>
-                        )
-                    }
-                })
-            }
-        <View style={style.fondo4}>
-            <View style={style.contenedorCaract}>
+        return (
+            <View style={style.contenedorCaract} key={llave}>
                 <View style={style.caracte}>
                     <View style={style.iconCaracte4}>
                         <Image style={style.imgIcon2}
 
-                            source={require('../../../assets/tijeras.png')}
+                            source={require('../../../assets/vacuna.png')}
                         />
                     </View>
                     <View style={style.iconCaracte5}>
                         <View style={{ flexDirection: "row" }}>
-                            <Text style={{ fontWeight: "bold", fontSize: width * 0.035, margin: '1%' }}> Esterelizado</Text>
-                            <View style={{justifyContent: 'center'}}>
-                                <Image style={style.imgIcon4}
-                                    source={require('../../../assets/check.png')}
-                                />
+                            <Text style={{ fontWeight: "bold", fontSize: width * 0.035, margin: '1%' }}> {titulo}</Text>
+                            <View style={{ justifyContent: 'center' }}>
+                                {
+                                    compararFechas(fecha) ?
+                                        (
+                                            <Image style={style.imgIcon4}
+                                                source={require('../../../assets/nocheck.png')}
+                                            />
+                                        )
+                                        :
+                                        (
+                                            <Image style={style.imgIcon4}
+                                                source={require('../../../assets/check.png')}
+                                            />
+                                        )
+                                }
                             </View>
                         </View>
-                        <Text style={{ fontSize: width * 0.03, margin: '1%' }}> Fecha: {pet.fecha_esterelizado}</Text>
-                        <Text style={{ fontSize: width * 0.03, margin: '1%' }}> Lugar: {pet.lugar_esterelizado}</Text>
+                        <Text style={{ fontSize: width * 0.03, margin: '1%' }}> Fecha: {fecha}</Text>
+                        <Text style={{ fontSize: width * 0.03, margin: '1%' }}> Lugar: {clinica}</Text>
                     </View>
                     <View style={style.iconCaracte6}>
-                    <Text 
-                        onPress={() => navigation.navigate('Sterilization',{pet: pet})}
-                        style={{ fontWeight: "bold", color: "blue", fontSize: width * 0.03 }}
-                    > Ver más</Text>
+                        <StatusBar barStyle='dark-content'></StatusBar>
+                        <SafeAreaView >
+                            <TouchableWithoutFeedback onPress={onShowPopup}>
+
+                                <Text style={{ fontWeight: "bold", color: "blue", fontSize: width * 0.03 }}> Ver más</Text>
+                            </TouchableWithoutFeedback>
+                        </SafeAreaView>
+                        {
+                            compararFechas(fecha) ?
+                                (
+                                    <BottomHistorial
+                                        title={titulo}
+                                        estado='Adoptado'
+                                        verificado={require('../../../assets/nocheck.png')}
+                                        src={require('../../../assets/vacuna.png')}
+                                        desp={descripcion}
+                                        lugar={clinica}
+                                        fecha={fecha}
+                                        ref={(target) => popupRef = target}
+                                        onTouchOutside={onClosePopup}
+
+                                    />
+                                )
+                                :
+                                (
+                                    <BottomHistorial
+                                        title={titulo}
+                                        estado='Adoptado'
+                                        verificado={require('../../../assets/check.png')}
+                                        src={require('../../../assets/vacuna.png')}
+                                        fecha={fecha}
+                                        desp={descripcion}
+                                        lugar={clinica}
+                                        ref={(target) => popupRef = target}
+                                        onTouchOutside={onClosePopup}
+
+                                    />
+                                )
+                        }
+
+
                     </View>
                 </View>
-
             </View>
+        );
+    }
 
-            <View style={style.contenedorCaract}>
-                <View style={style.caracte}>
-                    <View style={style.iconCaracte4}>
-                        <Image style={style.imgIcon2}
-
-                            source={require('../../../assets/medicina.png')}
-                        />
-                    </View>
-                    <View style={style.iconCaracte5}>
-                    <View style={{ flexDirection: "row" }}>
-                            <Text style={{ fontWeight: "bold", fontSize: width * 0.035, margin: '1%' }}> Desparacitado</Text>
-                            <View style={{justifyContent: 'center'}}>
-                                <Image style={style.imgIcon4}
-                                    source={require('../../../assets/check.png')}
-                                />
-                            </View>
-                        </View>
-                        <Text style={{ fontSize: width * 0.03, margin: '1%' }}> Fecha: {pet.fecha_desparacitado}</Text>
-                        <Text style={{ fontSize: width * 0.03, margin: '1%' }}> Lugar: {pet.lugar_desparacitado}</Text>
-                    </View>
-                    <View style={style.iconCaracte6}>
-                    <Text 
-                        onPress={() => navigation.navigate('Wormed',{pet: pet})}
-                        style={{ fontWeight: "bold", color: "blue", fontSize: width * 0.03 }}
-                    > Ver más</Text>
-                    </View>
+    return (
+        <View style={style.fondo}>
+            <View style={style.backgroundContainer}>
+                <View style={style.fondo5}>
+                    <Text style={style.titulo}>Historial Clinico</Text>
                 </View>
+                {
+                    clinic.map((vacuna) => {
+                        if (new Date(vacuna.fecha) <= fecha_hoy) {
+                            return (
+                                <View style={style.fondo3} key={vacuna.vacuna_id}>
+                                    <StatusBar barStyle='dark-content'></StatusBar>
+                                    <SafeAreaView >
+                                        <TouchableWithoutFeedback>
 
-            </View>
+                                            <View style={style.contenedorCaract}>
+                                                <View style={style.caracte}>
+                                                    <View style={style.iconCaracte}>
+                                                        <Image style={style.imgIcon2}
 
-        </View>
-        <Text style={style.titulo2}> Vacunas</Text>
-        <View style={style.fondo6}>
-            
-            {
-                clinic.map((vacuna)=>{
-                    return (
-                        <View style={style.contenedorCaract} key={vacuna.vacuna_id}>
+                                                            source={require('../../../assets/alerta.png')}
+                                                        />
+                                                    </View>
+                                                    <View style={style.iconCaracte2}>
+                                                        <Text style={{ fontWeight: "bold", fontSize: width * 0.035, margin: '1%' }}> No olvidar</Text>
+                                                        <Text style={{ fontSize: width * 0.03, margin: '1%' }}> Vacuna: {vacuna.nombre_vacuna}</Text>
+                                                    </View>
+                                                    <View style={style.iconCaracte3}>
+                                                        <Text style={{ fontWeight: "bold", color: "orange", fontSize: width * 0.03 }}>{vacuna.fecha}</Text>
+                                                    </View>
+                                                </View>
+
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                    </SafeAreaView>
+                                </View>
+                            )
+                        }
+                    })
+                }
+                <View style={style.fondo4}>
+                    <View style={style.contenedorCaract}>
                         <View style={style.caracte}>
                             <View style={style.iconCaracte4}>
                                 <Image style={style.imgIcon2}
 
-                                    source={require('../../../assets/vacuna.png')}
+                                    source={require('../../../assets/tijeras.png')}
                                 />
                             </View>
                             <View style={style.iconCaracte5}>
-                            <View style={{ flexDirection: "row" }}>
-                                    <Text style={{ fontWeight: "bold", fontSize: width * 0.035, margin: '1%' }}> {vacuna.nombre_vacuna}</Text>
-                                    <View style={{justifyContent: 'center'}}>
+                                <View style={{ flexDirection: "row" }}>
+                                    <Text style={{ fontWeight: "bold", fontSize: width * 0.035, margin: '1%' }}> Esterelizado</Text>
+                                    <View style={{ justifyContent: 'center' }}>
                                         {
-                                            compararFechas(vacuna.fecha) ? 
-                                            (
-                                            <Image style={style.imgIcon4}
-                                                source={require('../../../assets/nocheck.png')}
-                                            />
-                                            )
-                                            :
-                                            (
-                                                <Image style={style.imgIcon4}
-                                                source={require('../../../assets/check.png')}
-                                            />
-                                            )
+                                            compararFechas(pet.fecha_esterelizado) ?
+                                                (
+                                                    <Image style={style.imgIcon4}
+                                                        source={require('../../../assets/nocheck.png')}
+                                                    />
+                                                )
+                                                :
+                                                (
+                                                    <Image style={style.imgIcon4}
+                                                        source={require('../../../assets/check.png')}
+                                                    />
+                                                )
                                         }
                                     </View>
                                 </View>
-                                <Text style={{ fontSize: width * 0.03, margin: '1%' }}> Fecha: {vacuna.fecha}</Text>
-                                <Text style={{ fontSize: width * 0.03, margin: '1%' }}> Lugar: {vacuna.lugar}</Text>
+                                <Text style={{ fontSize: width * 0.03, margin: '1%' }}> Fecha: {pet.fecha_esterelizado}</Text>
+                                <Text style={{ fontSize: width * 0.03, margin: '1%' }}> Lugar: {pet.lugar_esterelizado}</Text>
                             </View>
                             <View style={style.iconCaracte6}>
-                                <Text 
-                                 onPress={() => navigation.navigate('Vaccine',{data: vacuna})}
-                                 style={{ fontWeight: "bold", color: "blue", fontSize: width * 0.03 }}
-                                 > Ver más</Text>
+                                <StatusBar barStyle='dark-content'></StatusBar>
+                                <SafeAreaView >
+                                    <TouchableWithoutFeedback onPress={onShowPopup}>
+
+                                        <Text style={{ fontWeight: "bold", color: "blue", fontSize: width * 0.03 }}> Ver más</Text>
+                                    </TouchableWithoutFeedback>
+                                </SafeAreaView>
+                                {
+                                    compararFechas(pet.fecha_esterelizado) ?
+                                        (
+                                            <BottomHistorial
+                                                title='Esterelizado'
+                                                estado='Adoptado'
+                                                verificado={require('../../../assets/nocheck.png')}
+                                                src={require('../../../assets/tijeras.png')}
+                                                desp={pet.descripcion_esterelizado}
+                                                lugar={pet.lugar_esterelizado}
+                                                fecha={pet.fecha_esterelizado}
+                                                ref={(target) => popupRef = target}
+                                                onTouchOutside={onClosePopup}
+
+                                            />
+                                        )
+                                        :
+                                        (
+                                            <BottomHistorial
+                                                title='Esterelizado'
+                                                estado='Adoptado'
+                                                verificado={require('../../../assets/check.png')}
+                                                src={require('../../../assets/tijeras.png')}
+                                                desp={pet.descripcion_esterelizado}
+                                                lugar={pet.lugar_esterelizado}
+                                                fecha={pet.fecha_esterelizado}
+                                                ref={(target) => popupRef = target}
+                                                onTouchOutside={onClosePopup}
+
+                                            />
+                                        )
+                                }
+
+
                             </View>
                         </View>
+
                     </View>
-                    );
-                })
-            }
-            
+
+                    <View style={style.contenedorCaract}>
+                        <View style={style.caracte}>
+                            <View style={style.iconCaracte4}>
+                                <Image style={style.imgIcon2}
+
+                                    source={require('../../../assets/medicina.png')}
+                                />
+                            </View>
+                            <View style={style.iconCaracte5}>
+                                <View style={{ flexDirection: "row" }}>
+                                    <Text style={{ fontWeight: "bold", fontSize: width * 0.035, margin: '1%' }}> Desparacitado</Text>
+                                    <View style={{ justifyContent: 'center' }}>
+                                    {
+                                            compararFechas(pet.fecha_desparacitado) ?
+                                                (
+                                                    <Image style={style.imgIcon4}
+                                                        source={require('../../../assets/nocheck.png')}
+                                                    />
+                                                )
+                                                :
+                                                (
+                                                    <Image style={style.imgIcon4}
+                                                        source={require('../../../assets/check.png')}
+                                                    />
+                                                )
+                                        }
+                                    </View>
+                                </View>
+                                <Text style={{ fontSize: width * 0.03, margin: '1%' }}> Fecha: {pet.fecha_desparacitado}</Text>
+                                <Text style={{ fontSize: width * 0.03, margin: '1%' }}> Lugar: {pet.lugar_desparacitado}</Text>
+                            </View>
+                            <View style={style.iconCaracte6}>
+                                <StatusBar barStyle='dark-content'></StatusBar>
+                                <SafeAreaView >
+                                    <TouchableWithoutFeedback onPress={onShowPopup2}>
+
+                                        <Text style={{ fontWeight: "bold", color: "blue", fontSize: width * 0.03 }}> Ver más</Text>
+                                    </TouchableWithoutFeedback>
+                                </SafeAreaView>
+                                {
+                                    compararFechas(pet.fecha_desparacitado) ?
+                                        (
+                                            <BottomHistorial
+                                                title='Desparacitado'
+                                                estado='Adoptado'
+                                                verificado={require('../../../assets/nocheck.png')}
+                                                src={require('../../../assets/medicina.png')}
+                                                desp={pet.descripcion_desparacitado}
+                                                lugar={pet.lugar_desparacitado}
+                                                fecha={pet.fecha_desparacitado}
+                                                ref={(target) => popupRef2 = target}
+                                                onTouchOutside={onClosePopup2}
+
+                                            />
+                                        )
+                                        :
+                                        (
+                                            <BottomHistorial
+                                                title='Desparacitado'
+                                                estado='Adoptado'
+                                                verificado={require('../../../assets/check.png')}
+                                                src={require('../../../assets/medicina.png')}
+                                                desp={pet.descripcion_desparacitado}
+                                                lugar={pet.lugar_desparacitado}
+                                                fecha={pet.fecha_desparacitado}
+                                                ref={(target) => popupRef2 = target}
+                                                onTouchOutside={onClosePopup2}
+
+                                            />
+                                        )
+                                }
+
+
+                            </View>
+                        </View>
+
+                    </View>
+
+                </View>
+                <Text style={style.titulo2}> Vacunas</Text>
+                <View style={style.fondo6}>
+
+                    {
+                        clinic.map((vacuna) => {
+                            return (
+                                vacunasHistorial(vacuna.nombre_vacuna, vacuna.fecha, vacuna.lugar_vacuna, vacuna.vacuna_id, vacuna.descripcion_vacuna)
+
+                            )
+                        })
+                    }
+
+                </View>
+            </View>
         </View>
-    </View>
-</View>
-  );
+    );
 };
 
 const style = StyleSheet.create({
@@ -252,7 +417,6 @@ const style = StyleSheet.create({
     fondo4: {
         position: 'relative',
         width: width * 0.85,
-        height: width * 0.35,
         elevation: 5,
         marginTop: '10%',
         backgroundColor: 'white',
@@ -268,7 +432,6 @@ const style = StyleSheet.create({
     fondo6: {
         position: 'relative',
         width: width * 0.85,
-        height: width * 0.35,
         elevation: 5,
         marginTop: '5%',
         backgroundColor: 'white',
@@ -280,7 +443,11 @@ const style = StyleSheet.create({
     },
     contenedorCaract: {
         flexDirection: 'row',
-        margin: '3%',
+        marginTop: '3%',
+        marginLeft: '3%',
+        marginRight: '3%',
+        marginBottom: '3%',
+        height: height * 0.07,
 
     },
 
