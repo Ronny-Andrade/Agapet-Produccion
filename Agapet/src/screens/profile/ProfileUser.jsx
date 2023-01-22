@@ -31,7 +31,7 @@ export const ProfileUser = () => {
   const [direction, setDirection] = useState('');
 
   // Imagenes
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(' ');
 
   const selectImage = async () => {
 
@@ -90,16 +90,18 @@ export const ProfileUser = () => {
       url: url,
       data: bodyFormData,
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         'Authorization': 'Bearer ' + token
       },
     }).then(response => {
       console.log(response);
+      alert('Datos actualizados');
     })
       .catch(error => {
         console.log(error);
+        alert(error);
       });
-    alert('Datos actualizados');
+    
   };
 
   useEffect(() => {
