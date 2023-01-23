@@ -310,7 +310,7 @@ const style = StyleSheet.create({
         resizeMode: 'stretch'
     },
     fondo6: {
-        
+        width: width*0.9,
         elevation: 5,
         marginTop: '5%',
         backgroundColor: 'white',
