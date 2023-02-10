@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons, FontAwesome5, FontAwesome   } from '@expo/vector-icons';
 //Inicio
-import {Home} from '../screens/Home';
 import {Timeline} from '../screens/timeline/Timeline';
 // Usuario
 import {ProfileUser} from '../screens/profile/ProfileUser';
