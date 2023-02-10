@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Ionicons, FontAwesome5  } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5, FontAwesome   } from '@expo/vector-icons';
 //Inicio
 import {Home} from '../screens/Home';
 import {Timeline} from '../screens/timeline/Timeline';
@@ -14,6 +14,8 @@ import {Vaccine} from '../screens/petProfile/Vaccine';
 import {Sterilization} from '../screens/petProfile/Sterilization';
 import {Wormed} from '../screens/petProfile/Wormed';
 import {UpdateVaccine} from '../screens/petProfile/UpdateVaccine';
+//faq
+import {Faq} from '../screens/faq/faq'
 
 
 const Tab = createBottomTabNavigator();
@@ -77,6 +79,20 @@ function MyTabs(){
               )
             }}
              />
+
+          <Tab.Screen 
+            name='faq' 
+            component={Faq}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({color, size})=>(
+                <FontAwesome name="question-circle-o" size={size} color={color} />
+              )
+            }}
+             />
+
+
+
             <Tab.Screen 
             name='ProfileUser' 
             component={ProfileUser} 
