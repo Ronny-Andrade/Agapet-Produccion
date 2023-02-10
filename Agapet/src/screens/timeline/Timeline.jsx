@@ -242,7 +242,7 @@ tipoSeguimiento.forEach(e=>{
 
                         </View>
                         <View style={style.iconCaracte2}>
-                            <Text style={{ fontWeight: "bold", fontSize: width * 0.045, color: 'white' }}> ¡Hola Chester!</Text>
+                            <Text style={{ fontWeight: "bold", fontSize: width * 0.045, color: 'white' }}> ¡Hola {pet.nombre}!</Text>
                             <View style={{ flexDirection: "row", marginLeft: '2%', marginTop: '2%' }}>
                                 <Image style={style.imgIcon5}
 
