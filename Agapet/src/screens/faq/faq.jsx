@@ -1,4 +1,5 @@
-import React, { Component, useContext, useState } from 'react';
+import React, { Component, useEffect, useState, useContext} from 'react';
+import axios from 'axios';
 import {
     Text,
     View,
@@ -8,7 +9,9 @@ import {
     ImageBackground,
     FlatList,
     Image,
-    ScrollView
+    ScrollView,
+    Button,
+    TouchableOpacity
 } from 'react-native';
 import AccordionItem from '../../components/AccordionItem'
 import Searchbar from '../../components/Searchbar.js'
@@ -18,6 +21,8 @@ const { height, width } = Dimensions.get('window');
 
 export const Faq = () => {
 
+    const [faq, setFaq] = useState([]);
+    const [isLoading, setisLoading] = useState(true);
     const [value, setValue] = useState()
     function updateSearch(value) {
         //do your search logic or anything
@@ -43,11 +48,35 @@ export const Faq = () => {
         }
     ];
 
+    const getFaq = () => {
+        const url = 'https://agapet.pythonanywhere.com/faq/faq/tema';
+        axios.get(url,
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          }).then(res => {
+            setisLoading(false);
+            let data = res.data
+            setFaq(data);
+          }).catch(e => {
+            console.log(`data error ${e}`);
+          });
+      };
+
     renderTitle = () => {
         return (
             <View><Text style={style.titulo}>Top Questions</Text></View>
         )
     }
+
+    useEffect(() => {
+        getFaq(); 
+      }, [])
+
+    let Allcategory = ['All',...new Set(faq.map(c => c.temaid))]
+    let Information  = [...new Set(faq.map(c => c))]
+    const [question, setQuestion] = useState(Information);
 
     return (
         <View style={style.fondo}>
@@ -68,10 +97,15 @@ export const Faq = () => {
             <View style={{
                 flexDirection: "row", marginTop: width * 0.045, marginBottom: width * 0.045
             }}>
-
-                <Text style={style.titulo3}>Tema 1</Text>
-                <Text style={style.titulo2}>Tema 2</Text>
-                <Text style={style.titulo2}>Tema 3</Text>
+                {
+                    Allcategory.map(c => (
+                       <TouchableOpacity
+                       key={c}
+                       >
+                            <Text style={style.titulo3}>{c}</Text>
+                       </TouchableOpacity>
+                    ))
+                }
             </View>
 
 
