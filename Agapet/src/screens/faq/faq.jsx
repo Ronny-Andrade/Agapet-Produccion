@@ -22,6 +22,7 @@ const { height, width } = Dimensions.get('window');
 export const Faq = () => {
 
     const [faq, setFaq] = useState([]);
+    const [tema, setTema] = useState([]);
     const [isLoading, setisLoading] = useState(true);
     const [value, setValue] = useState()
     function updateSearch(value) {
@@ -64,6 +65,21 @@ export const Faq = () => {
           });
       };
 
+      const getTema = () => {
+        const url = 'https://agapet.pythonanywhere.com/faq/tema';
+        axios.get(url,
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          }).then(res => {
+            let data = res.data
+            setTema(data);
+          }).catch(e => {
+            console.log(`data error ${e}`);
+          });
+      };
+
     renderTitle = () => {
         return (
             <View><Text style={style.titulo}>Top Questions</Text></View>
@@ -71,10 +87,11 @@ export const Faq = () => {
     }
 
     useEffect(() => {
-        getFaq(); 
+        getFaq();
+        getTema(); 
       }, [])
 
-    let Allcategory = ['All',...new Set(faq.map(c => c.temaid))]
+    let Allcategory = ['All',...new Set(tema.map(c => c.temaid))]
     let Information  = [...new Set(faq.map(c => c))]
     const [question, setQuestion] = useState(Information);
 
@@ -113,10 +130,10 @@ export const Faq = () => {
                 <SafeAreaView>
                     <View>
                         <FlatList
-                            data={data}
-                            keyExtractor={(item) => item.id.toString()}
+                            data={Information}
+                            keyExtractor={(item) => item.faqid.toString()}
                             renderItem={({ item }) => (
-                                <AccordionItem title={item.title} bodyText={item.body} />
+                                <AccordionItem title={item.pregunta} bodyText={item.respuesta} />
                             )}
                         />
                     </View>
