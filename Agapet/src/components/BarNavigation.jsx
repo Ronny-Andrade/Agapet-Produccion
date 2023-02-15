@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Ionicons, FontAwesome5, FontAwesome   } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 //Inicio
 import {Timeline} from '../screens/timeline/Timeline';
 // Usuario
@@ -15,10 +15,27 @@ import {Wormed} from '../screens/petProfile/Wormed';
 import {UpdateVaccine} from '../screens/petProfile/UpdateVaccine';
 //faq
 import {Faq} from '../screens/faq/faq'
+//recompensa
+import {Recompensa} from '../screens/recompensa/Recompensa'
+import {Canjeo} from '../screens/recompensa/Canjeo'
 
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
+function StackRecompensa(){
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name='Recompensa' component={Recompensa} options={{
+        headerShown: false
+      }}/>
+      <Stack.Screen name='Canjeo' component={Canjeo} options={{
+        headerShown: false
+      }}/>
+    </Stack.Navigator>
+    
+  );
+}
 
 function StackTimeline(){
   return(
@@ -68,6 +85,17 @@ function MyTabs(){
             }
         }}
         >
+            <Tab.Screen 
+            name='StackRecompensa' 
+            component={StackRecompensa}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({color, size})=>(
+                <MaterialCommunityIcons name="medal-outline" size={size} color={color} />
+              )
+            }}
+             />
+
             <Tab.Screen 
             name='StackTimeline' 
             component={StackTimeline}
