@@ -17,6 +17,7 @@ import {
     ImageBackground
 } from 'react-native';
 import { BottomNotification } from '../../screens/timeline/BottomNotification'
+import { BottomRecompensa } from './BottomRecompensa'
 
 
 
@@ -43,11 +44,11 @@ if (PixelRatio.get() <= 2) {
     FONT_BACK_LABEL = 14;
 }
 
-export const Canjeo = ({route}) => {
+export const Canjeo = ({ route }) => {
     const recompensa = route.params.recompensa
     const usuario = route.params.usuario
     const mascota = route.params.mascota
-    
+
 
     let popupRef7 = React.createRef()
     const onShowPopup7 = () => {
@@ -57,11 +58,22 @@ export const Canjeo = ({route}) => {
         popupRef7.close()
     }
 
+    let popupRef = React.createRef()
+    const onShowPopup = () => {
+        popupRef.show()
+    }
+    const onClosePopup = () => {
+        popupRef.close()
+    }
+
     const validate = () => {
         if (usuario.points <= recompensa.puntos) {
-          return alert('Puntos insuficientes');
-        }else{
-            return alert('Canjeo realizado');
+            return alert('Puntos insuficientes');
+        } else {
+            return(
+                onShowPopup()
+            )
+           // return alert('Puntos Suficientes');
         }
 
     };
@@ -72,27 +84,27 @@ export const Canjeo = ({route}) => {
         bodyFormData.append('points', puntos);
         puntos = (usuario.points - recompensa.puntos);
         axios({
-          method: 'put',
-          url: url,
-          data: bodyFormData,
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': 'Bearer ' + token
-          },
+            method: 'put',
+            url: url,
+            data: bodyFormData,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Bearer ' + token
+            },
         }).then(response => {
-          console.log(response);
+            console.log(response);
         })
-          .catch(error => {
-            console.log(error);
-            alert(error);
-          });
-        
-      };
+            .catch(error => {
+                console.log(error);
+                alert(error);
+            });
+
+    };
 
 
 
 
-    
+
 
     return (
         <View style={style.fondo}>
@@ -102,7 +114,7 @@ export const Canjeo = ({route}) => {
                     <View style={style.caracte}>
                         <View style={style.iconCaracte}>
                             <Image style={style.imgIcon2}
-                                source={{uri: `https://agapet.pythonanywhere.com/${mascota.image}`}}
+                                source={{ uri: `https://agapet.pythonanywhere.com/${mascota.image}` }}
                             />
 
                         </View>
@@ -145,7 +157,7 @@ export const Canjeo = ({route}) => {
 
             <View style={style.iconCaracte4}>
                 <Image style={style.imgIcon2v}
-                source={{uri: `https://agapet.pythonanywhere.com/${recompensa.imagen}`}}
+                    source={{ uri: `https://agapet.pythonanywhere.com/${recompensa.imagen}` }}
                 />
             </View>
             <Text style={{ fontSize: width * 0.045, marginLeft: '5%', fontWeight: "bold", margin: '3%' }}> ¿Qué incluye?</Text>
@@ -153,14 +165,27 @@ export const Canjeo = ({route}) => {
                 {recompensa.descripcionFinal}
             </Text>
 
-            <View style={style.boton}>
-                <Button
-                    color={"#5FAFB9"}
-                    margin={'2%'}
-                    title="Canjear"
-                    onPress={validate}
+
+
+                        <View style={style.boton}>
+                            <Button
+                                color={"#5FAFB9"}
+                                margin={'2%'}
+                                title="Canjear"
+                            onPress={validate}
+                            />
+                        </View>
+
+                <BottomRecompensa
+                    title='¡Felicitaciones!'
+                    estado='No iniciado'
+                    ref={(target) => popupRef = target}
+                    onTouchOutside={onClosePopup}
+                    src={require('../../../assets/recompensa.jpeg')}
+                    data={popupList}
                 />
-            </View>
+
+            
 
         </View>
 
@@ -171,7 +196,8 @@ export const Canjeo = ({route}) => {
 const style = StyleSheet.create({
 
     fondo: {
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        height: height
 
     },
 
