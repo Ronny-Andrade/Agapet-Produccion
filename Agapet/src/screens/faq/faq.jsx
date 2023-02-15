@@ -93,7 +93,20 @@ export const Faq = () => {
 
     let Allcategory = ['All',...new Set(tema.map(c => c.temaid))]
     let Information  = [...new Set(faq.map(c => c))]
-    const [question, setQuestion] = useState(Information);
+
+    //cuidado se dana
+    const filterFaq = (category) =>{
+        Information  = faq.filter(c => c.temaid ===category)
+        setFaq(Information)
+    }
+    const filter = (category)=>{
+        if(category === 'All'){
+            Information  = faq.filter(c => c)
+        }else if(category === '1'){
+            setFaq(filterFaq(1))
+        }
+    }
+    /* ************************ */
 
     return (
         <View style={style.fondo}>
@@ -117,6 +130,7 @@ export const Faq = () => {
                 {
                     Allcategory.map(c => (
                        <TouchableOpacity
+                       onPress={()=>filter(c)} //cuidado con el onpres
                        key={c}
                        >
                             <Text style={style.titulo3}>{c}</Text>
