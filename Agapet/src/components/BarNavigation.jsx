@@ -20,6 +20,7 @@ import {Recompensa} from '../screens/recompensa/Recompensa'
 import {Canjeo} from '../screens/recompensa/Canjeo'
 //cursos
 import {Cursos} from '../screens/cursos/Cursos'
+import {InfoCurso} from '../screens/cursos/InfoCurso'
 
 
 const Tab = createBottomTabNavigator();
@@ -72,6 +73,10 @@ function StackCursos(){
   return(
     <Stack.Navigator>
       <Stack.Screen name='Cursos' component={Cursos} options={{
+        headerShown: false
+      }}/>
+
+      <Stack.Screen name='InfoCurso' component={InfoCurso} options={{
         headerShown: false
       }}/>
     </Stack.Navigator>

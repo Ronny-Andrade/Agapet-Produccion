@@ -172,46 +172,51 @@ export const Cursos = () => {
                 {
                     cursos.map(cursos => {
                         return(
-                            <View style={style.fondo6} key={cursos.idcurso}>
-                            <View style={style.contenedorCaract}>
-                                <View style={style.caracte}>
-                                    <View style={style.iconCaracte4}>
-                                        <Image style={style.imgIcon2v}
-                                            source={{uri: `https://agapet.pythonanywhere.com/${cursos.imagen}`}}
-                                        />
-                                    </View>
-                                    <View style={style.iconCaracte5}>
-                                        <Text style={{ fontWeight: "bold", fontSize: width * 0.036 }}> {cursos.titulo}</Text>
-                                        <View style={{ flexDirection: 'row', marginTop: '1%', marginBottom: '1%' }}>
-                                            <Image style={style.imgIcon2v1}
-
-                                                source={require('../../../assets/icons8-clock-384.png')}
+                            <TouchableWithoutFeedback 
+                            key={cursos.idcurso}
+                            onPress={() => navigation.navigate('InfoCurso',{Infocursos: cursos, usuario:dataUser, mascota:pet})}
+                            >
+                                <View style={style.fondo6}>
+                                <View style={style.contenedorCaract}>
+                                    <View style={style.caracte}>
+                                        <View style={style.iconCaracte4}>
+                                            <Image style={style.imgIcon2v}
+                                                source={{uri: `https://agapet.pythonanywhere.com/${cursos.imagen}`}}
                                             />
-                                            <Text style={{ fontSize: width * 0.03, width: '50%' }}>
-                                                {cursos.minutos} mins
-                                            </Text>
-                                            <Image style={style.imgIcon2v1}
-
-                                                source={require('../../../assets/coin.png')}
-                                            />
-                                            <Text style={{ fontSize: width * 0.03 }}>
-                                                {cursos.puntos} puntos
-                                            </Text>
                                         </View>
-                                        <Text style={{ fontSize: width * 0.03 }}>
-                                            {cursos.descripcion}
-                                        </Text>
-                                        <View style={{ backgroundColor: '#f5f5f5', width: '100%', borderRadius: 10, height: width * 0.04, marginTop:'3%'}}>
-                                            <View style={{ backgroundColor: '#5FAFB9', width: '50%', borderRadius: 10, height: width * 0.04, alignItems:'flex-end' }}>
-                                            <Text style={{ color:'white', marginRight:'5%',justifyContent:'space-between', fontSize:width*0.025}}>
-                                            {cursos.porcentaje}%
+                                        <View style={style.iconCaracte5}>
+                                            <Text style={{ fontWeight: "bold", fontSize: width * 0.036 }}> {cursos.titulo}</Text>
+                                            <View style={{ flexDirection: 'row', marginTop: '1%', marginBottom: '1%' }}>
+                                                <Image style={style.imgIcon2v1}
+
+                                                    source={require('../../../assets/icons8-clock-384.png')}
+                                                />
+                                                <Text style={{ fontSize: width * 0.03, width: '50%' }}>
+                                                    {cursos.minutos} mins
+                                                </Text>
+                                                <Image style={style.imgIcon2v1}
+
+                                                    source={require('../../../assets/coin.png')}
+                                                />
+                                                <Text style={{ fontSize: width * 0.03 }}>
+                                                    {cursos.puntos} puntos
+                                                </Text>
+                                            </View>
+                                            <Text style={{ fontSize: width * 0.03 }}>
+                                                {cursos.descripcion}
                                             </Text>
+                                            <View style={{ backgroundColor: '#f5f5f5', width: '100%', borderRadius: 10, height: width * 0.04, marginTop:'3%'}}>
+                                                <View style={{ backgroundColor: '#5FAFB9', width: '50%', borderRadius: 10, height: width * 0.04, alignItems:'flex-end' }}>
+                                                <Text style={{ color:'white', marginRight:'5%',justifyContent:'space-between', fontSize:width*0.025}}>
+                                                {cursos.porcentaje}%
+                                                </Text>
+                                                </View>
                                             </View>
                                         </View>
                                     </View>
                                 </View>
-                            </View>
-                            </View>
+                                </View>
+                            </TouchableWithoutFeedback>
                         )
                     })
                 }
