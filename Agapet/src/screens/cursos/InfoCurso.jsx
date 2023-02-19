@@ -176,7 +176,7 @@ export const InfoCurso = ({ route }) =>  {
             {
                 temas.map(temas=>{
                     return(
-                        <View style={style.tablatemas}>
+                        <View style={style.tablatemas} key={temas.idtema}>
                             <Image style={style.imgIcon2v1v}
                                 source={require('../../../assets/icons8-play-button-circled-90.png')}
                             />
@@ -184,7 +184,7 @@ export const InfoCurso = ({ route }) =>  {
                                 {temas.tema}
                             </Text>
                             <Text style={{ fontSize: width * 0.035, fontWeight:'bold', width:'15%' }}>
-                                {temas.minutos}
+                                {temas.minutos} min
                             </Text>
                             <Text style={{ fontSize: width * 0.035, color: '#74c2d1',fontWeight:'bold' }}> {temas.porcentaje}%</Text>
                         </View>
