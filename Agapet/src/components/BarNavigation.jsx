@@ -18,6 +18,8 @@ import {Faq} from '../screens/faq/faq'
 //recompensa
 import {Recompensa} from '../screens/recompensa/Recompensa'
 import {Canjeo} from '../screens/recompensa/Canjeo'
+//cursos
+import {Cursos} from '../screens/cursos/Cursos'
 
 
 const Tab = createBottomTabNavigator();
@@ -66,6 +68,17 @@ function StackTimeline(){
   );
 };
 
+function StackCursos(){
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name='Cursos' component={Cursos} options={{
+        headerShown: false
+      }}/>
+    </Stack.Navigator>
+    
+  );
+}
+
 function MyTabs(){
     return(
         <Tab.Navigator
@@ -85,6 +98,17 @@ function MyTabs(){
             }
         }}
         >
+          <Tab.Screen 
+            name='StackCursos' 
+            component={StackCursos}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({color, size})=>(
+                <MaterialCommunityIcons name="book-education" size={size} color={color} />
+              )
+            }}
+             />
+
             <Tab.Screen 
             name='StackRecompensa' 
             component={StackRecompensa}
