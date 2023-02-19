@@ -90,6 +90,8 @@ export class BottomRecompensa extends React.Component {
         const { estado } = this.props
         const { title } = this.props
         const { src } = this.props
+        const { desp } = this.props
+        const { imagen } = this.props
         const { verificado } = this.props
         return (
             <View style={style.fondo6}>
@@ -98,7 +100,7 @@ export class BottomRecompensa extends React.Component {
                         <View style={style.iconCaracte4}>
                             <Image style={style.imgIcon2}
 
-                                source={src}
+                                source={{uri: imagen}}
                             />
                         </View>
                         <View style={style.iconCaracte5}>
@@ -111,9 +113,9 @@ export class BottomRecompensa extends React.Component {
                     </View>
                 </View>
 
-                    <Text style={{ fontSize: width * 0.04, color:'white', marginLeft:'4%', marginBottom:'1%', marginTop:'2%', fontWeight:'bold'}}> Para reclamar tu producto</Text>
+                    <Text style={{ fontSize: width * 0.04, color:'white', marginLeft:'4%', marginBottom:'1%', marginTop:'2%', fontWeight:'bold'}}> Producto reclamado </Text>
                     <Text style={{ fontSize: width * 0.03, marginLeft:'4%', width:width*0.8,marginBottom:'3%', marginTop:'1%' }}>
-                    En la sección de cursos está habilitado el curso “Adiestramiento Canino Módulo 1” para que lo realices.
+                    {desp}
                     </Text>
 
             </View>

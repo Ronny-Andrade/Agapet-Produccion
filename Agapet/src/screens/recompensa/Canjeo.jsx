@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import {
     Button,
@@ -18,6 +19,7 @@ import {
 } from 'react-native';
 import { BottomNotification } from '../../screens/timeline/BottomNotification'
 import { BottomRecompensa } from './BottomRecompensa'
+import { AuthContext } from '../../context/AuthContext';
 
 
 
@@ -48,6 +50,9 @@ export const Canjeo = ({ route }) => {
     const recompensa = route.params.recompensa
     const usuario = route.params.usuario
     const mascota = route.params.mascota
+    const { userInfo } = useContext(AuthContext);
+    const token = userInfo.access;
+
 
 
     let popupRef7 = React.createRef()
@@ -70,19 +75,20 @@ export const Canjeo = ({ route }) => {
         if (usuario.points <= recompensa.puntos) {
             return alert('Puntos insuficientes');
         } else {
+            update();
             return(
                 onShowPopup()
             )
-           // return alert('Puntos Suficientes');
         }
 
     };
 
-    const update = (puntos) => {
+    const update = () => {
         const url = 'https://agapet.pythonanywhere.com/user/update';
+        puntos = (usuario.points - recompensa.puntos);
         let bodyFormData = new FormData();
         bodyFormData.append('points', puntos);
-        puntos = (usuario.points - recompensa.puntos);
+        
         axios({
             method: 'put',
             url: url,
@@ -92,7 +98,7 @@ export const Canjeo = ({ route }) => {
                 'Authorization': 'Bearer ' + token
             },
         }).then(response => {
-            console.log(response);
+            //console.log(response);
         })
             .catch(error => {
                 console.log(error);
@@ -178,6 +184,8 @@ export const Canjeo = ({ route }) => {
 
                 <BottomRecompensa
                     title='¡Felicitaciones!'
+                    desp={recompensa.descripcionFinal}
+                    imagen={`https://agapet.pythonanywhere.com/${recompensa.imagen}`}
                     estado='No iniciado'
                     ref={(target) => popupRef = target}
                     onTouchOutside={onClosePopup}
