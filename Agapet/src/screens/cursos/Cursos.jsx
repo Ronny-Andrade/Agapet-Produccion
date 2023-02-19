@@ -161,13 +161,17 @@ export const Cursos = () => {
                 </View>
             </View>
             <Text style={{ fontSize: width * 0.065, margin: '2%', fontWeight: "bold" }}> Cursos</Text>
-            <View style={style.buscador}>
+            {
+                /*
+                <View style={style.buscador}>
+                    <Searchbar
+                        value={value}
+                        updateSearch={updateSearch}
+                        />
+                </View>
+                */
+            }
 
-                <Searchbar
-                    value={value}
-                    updateSearch={updateSearch}
-                />
-            </View>
             <ScrollView style={style.scrollStyle} >
                 {
                     cursos.map(cursos => {
