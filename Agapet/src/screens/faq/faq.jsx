@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState, useContext} from 'react';
+import React, { Component, useEffect, useState, useContext, useRef } from 'react';
 import axios from 'axios';
 import {
     Text,
@@ -11,10 +11,12 @@ import {
     Image,
     ScrollView,
     Button,
-    TouchableOpacity
+    TouchableOpacity,
+    TextInput
 } from 'react-native';
 import AccordionItem from '../../components/AccordionItem'
 import Searchbar from '../../components/Searchbar.js'
+
 
 const { height, width } = Dimensions.get('window');
 
@@ -29,6 +31,7 @@ export const Faq = () => {
         //do your search logic or anything
         console.log(value)
     }
+
 
     //solo poner los datos en data y se generan solo los contenedores de las preguntas
     const data = [
@@ -52,33 +55,33 @@ export const Faq = () => {
     const getFaq = () => {
         const url = 'https://agapet.pythonanywhere.com/faq/faq/tema';
         axios.get(url,
-          {
-            headers: {
-              'Content-Type': 'application/json'
-            },
-          }).then(res => {
-            setisLoading(false);
-            let data = res.data
-            setFaq(data);
-          }).catch(e => {
-            console.log(`data error ${e}`);
-          });
-      };
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(res => {
+                setisLoading(false);
+                let data = res.data
+                setFaq(data);
+            }).catch(e => {
+                console.log(`data error ${e}`);
+            });
+    };
 
-      const getTema = () => {
+    const getTema = () => {
         const url = 'https://agapet.pythonanywhere.com/faq/tema';
         axios.get(url,
-          {
-            headers: {
-              'Content-Type': 'application/json'
-            },
-          }).then(res => {
-            let data = res.data
-            setTema(data);
-          }).catch(e => {
-            console.log(`data error ${e}`);
-          });
-      };
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(res => {
+                let data = res.data
+                setTema(data);
+            }).catch(e => {
+                console.log(`data error ${e}`);
+            });
+    };
 
     renderTitle = () => {
         return (
@@ -88,25 +91,100 @@ export const Faq = () => {
 
     useEffect(() => {
         getFaq();
-        getTema(); 
-      }, [])
+        getTema();
+    }, [])
 
-    let Allcategory = ['All',...new Set(tema.map(c => c.temaid))]
-    let Information  = [...new Set(faq.map(c => c))]
+    let Allcategory = ['All', ...new Set(tema.map(c => c.temaid))]
+    let Information = [...new Set(faq.map(c => c))]
 
     //cuidado se dana
-    const filterFaq = (category) =>{
-        Information  = faq.filter(c => c.temaid ===category)
+    const filterFaq = (category) => {
+        Information = faq.filter(c => c.temaid === category)
         setFaq(Information)
     }
-    const filter = (category)=>{
-        if(category === 'All'){
-            Information  = faq.filter(c => c)
-        }else if(category === '1'){
+    const filter = (category) => {
+        if (category === 'All') {
+            Information = faq.filter(c => c)
+        } else if (category === '1') {
             setFaq(filterFaq(1))
         }
+        setTipo(0);
+        setTema2(category);
+        preguntas();
     }
     /* ************************ */
+
+    const [texto, setTexto] = useState('');
+    const [tema2, setTema2] = useState('');
+    const [tipo, setTipo] = useState('');
+
+    const handleTextoChange = (text) => {
+        setTipo(1);
+        setTexto(text);
+        preguntas(text);
+        //console.log(text);
+    };
+
+    function preguntas(buscador) {
+
+        if ((buscador == '' && tipo==1 ) || ( tema2=='All' && tipo==0) ) {
+            return (
+                <FlatList
+                    data={Information}
+                    keyExtractor={(item) => item.faqid.toString()}
+                    renderItem={({ item }) => (
+                        <AccordionItem title={item.pregunta} bodyText={item.respuesta} />
+                    )}
+                />
+            )
+        } else {
+            let fil=[];
+            if(tipo==1){
+                 fil = [...new Set(faq.filter(c => (c.pregunta.toUpperCase()).includes(texto.toUpperCase())))];
+
+            }else{
+                 fil = [...new Set(faq.filter(c => (c.temaid.toString()).includes(tema2)))];
+            }
+            
+            return (
+                <FlatList
+                    data={fil}
+                    keyExtractor={(item) => item.faqid.toString()}
+                    renderItem={({ item }) => (
+                        <AccordionItem title={item.pregunta} bodyText={item.respuesta} />
+                    )}
+                />
+            );
+        }
+
+    }
+
+    function temas() {
+
+        if (tema2 == 'All') {
+            return (
+                <FlatList
+                    data={Information}
+                    keyExtractor={(item) => item.faqid.toString()}
+                    renderItem={({ item }) => (
+                        <AccordionItem title={item.pregunta} bodyText={item.respuesta} />
+                    )}
+                />
+            )
+        } else {
+            let fil2 = [...new Set(faq.filter(c => (c.temaid.toString()).includes(tema2)))];
+            return (
+                <FlatList
+                    data={fil2}
+                    keyExtractor={(item) => item.faqid.toString()}
+                    renderItem={({ item }) => (
+                        <AccordionItem title={item.pregunta} bodyText={item.respuesta} />
+                    )}
+                />
+            );
+        }
+
+    }
 
     return (
         <View style={style.fondo}>
@@ -115,26 +193,26 @@ export const Faq = () => {
 
 
             </ImageBackground>
+
             <View style={{ marginTop: width * 0.05, marginBottom: width * 0.06, width: width * 0.75, height: width * 0.12, borderRadius: 10, borderColor: 'grey', borderWidth: 1 }}>
                 <Image
                     source={require('../../../assets/ic_back.png')} />
-                <Searchbar
-                    value={value}
-                    updateSearch={updateSearch}
-                />
+                <TextInput value={texto} onChangeText={handleTextoChange}  ></TextInput>
             </View>
+
             <Text style={style.titulo}>Top Questions</Text>
             <View style={{
                 flexDirection: "row", marginTop: width * 0.045, marginBottom: width * 0.045
             }}>
                 {
                     Allcategory.map(c => (
-                       <TouchableOpacity
-                       onPress={()=>filter(c)} //cuidado con el onpres
-                       key={c}
-                       >
-                            <Text style={style.titulo3}>{c}</Text>
-                       </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => filter(c)} //cuidado con el onpres
+                            key={c}
+                            
+                        >
+                            <Text style={style.titulo3} >{c}</Text>
+                        </TouchableOpacity>
                     ))
                 }
             </View>
@@ -142,16 +220,13 @@ export const Faq = () => {
 
             <View style={style.backgroundContainer}>
                 <SafeAreaView>
-                    <View>
-                        <FlatList
-                            data={Information}
-                            keyExtractor={(item) => item.faqid.toString()}
-                            renderItem={({ item }) => (
-                                <AccordionItem title={item.pregunta} bodyText={item.respuesta} />
-                            )}
-                        />
-                    </View>
 
+                    <View >
+                        {
+                        preguntas(texto)
+                        }
+
+                    </View>
                 </SafeAreaView>
             </View>
         </View>
@@ -173,7 +248,7 @@ const style = StyleSheet.create({
         alignSelf: 'flex-start',
         marginLeft: '4%',
         backgroundColor: '#F7E6D5',
-        borderRadius:width * 0.03,
+        borderRadius: width * 0.03,
     },
     titulo3: {
         color: 'black',
@@ -182,7 +257,7 @@ const style = StyleSheet.create({
         alignSelf: 'flex-start',
         marginLeft: '4%',
         backgroundColor: '#B900FF',
-        borderRadius:width * 0.03
+        borderRadius: width * 0.03
     },
     fondo: {
         backgroundColor: 'white',
