@@ -35,6 +35,24 @@ function StackRecompensa(){
       <Stack.Screen name='Canjeo' component={Canjeo} options={{
         headerShown: false
       }}/>
+      <Stack.Screen name='Pet' component={Pet} options={{
+        headerShown: false
+      }}/>
+      <Stack.Screen name='Clinic' component={Clinic} options={{
+        headerShown: false
+      }}/>
+      <Stack.Screen name='Vaccine' component={Vaccine} options={{
+        headerShown: false
+      }}/>
+      <Stack.Screen name='Sterilization' component={Sterilization} options={{
+        headerShown: false
+      }}/>
+      <Stack.Screen name='Wormed' component={Wormed} options={{
+        headerShown: false
+      }}/>
+      <Stack.Screen name='UpdateVaccine' component={UpdateVaccine} options={{
+        headerShown: false
+      }}/>
     </Stack.Navigator>
     
   );
@@ -77,6 +95,24 @@ function StackCursos(){
       }}/>
 
       <Stack.Screen name='InfoCurso' component={InfoCurso} options={{
+        headerShown: false
+      }}/>
+      <Stack.Screen name='Pet' component={Pet} options={{
+        headerShown: false
+      }}/>
+      <Stack.Screen name='Clinic' component={Clinic} options={{
+        headerShown: false
+      }}/>
+      <Stack.Screen name='Vaccine' component={Vaccine} options={{
+        headerShown: false
+      }}/>
+      <Stack.Screen name='Sterilization' component={Sterilization} options={{
+        headerShown: false
+      }}/>
+      <Stack.Screen name='Wormed' component={Wormed} options={{
+        headerShown: false
+      }}/>
+      <Stack.Screen name='UpdateVaccine' component={UpdateVaccine} options={{
         headerShown: false
       }}/>
     </Stack.Navigator>

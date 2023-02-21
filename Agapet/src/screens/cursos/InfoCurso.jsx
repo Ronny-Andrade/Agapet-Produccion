@@ -20,6 +20,7 @@ import {
 import { BottomNotification } from '../../screens/timeline/BottomNotification'
 import Searchbar from '../../components/Searchbar'
 import YoutubePlayer from 'react-native-youtube-iframe'
+import { useNavigation } from '@react-navigation/native';
 
 
 const popupList = [
@@ -49,6 +50,7 @@ export const InfoCurso = ({ route }) =>  {
     const cursos = route.params.Infocursos
     const usuario = route.params.usuario
     const mascota = route.params.mascota
+    const navigation = useNavigation();
     const [temas, setTemas] = useState([]);
 
 
@@ -92,10 +94,12 @@ export const InfoCurso = ({ route }) =>  {
                 <View style={style.contenedorCaract}>
                     <View style={style.caracte}>
                         <View style={style.iconCaracte}>
+                        <TouchableOpacity
+                            onPress={()=> navigation.navigate('Pet')}>
                             <Image style={style.imgIcon2}
                                 source={{ uri: `https://agapet.pythonanywhere.com/${mascota.image}` }}
                             />
-
+                        </TouchableOpacity>
                         </View>
                         <View style={style.iconCaracte2}>
                             <Text style={{ fontWeight: "bold", fontSize: width * 0.045, color: 'white' }}> ¡Hola {mascota.nombre}!</Text>
@@ -246,7 +250,7 @@ const style = StyleSheet.create({
         //height: width * 0.15,
         width: width * 0.15,
         borderRadius: width * 0.5,
-        backgroundColor: 'red',
+        //backgroundColor: 'red',
         marginTop: '8%',
         //borderRadius: width * 0.25,
         marginLeft: '10%',

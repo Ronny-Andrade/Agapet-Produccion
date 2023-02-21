@@ -20,6 +20,7 @@ import {
 import { BottomNotification } from '../../screens/timeline/BottomNotification'
 import { BottomRecompensa } from './BottomRecompensa'
 import { AuthContext } from '../../context/AuthContext';
+import { useNavigation } from '@react-navigation/native';
 
 
 
@@ -52,6 +53,7 @@ export const Canjeo = ({ route }) => {
     const mascota = route.params.mascota
     const { userInfo } = useContext(AuthContext);
     const token = userInfo.access;
+    const navigation = useNavigation();
 
 
 
@@ -119,10 +121,12 @@ export const Canjeo = ({ route }) => {
                 <View style={style.contenedorCaract}>
                     <View style={style.caracte}>
                         <View style={style.iconCaracte}>
+                        <TouchableOpacity
+                            onPress={()=> navigation.navigate('Pet')}>
                             <Image style={style.imgIcon2}
-                                source={{ uri: `https://agapet.pythonanywhere.com/${mascota.image}` }}
+                            source={{ uri: `https://agapet.pythonanywhere.com/${mascota.image}` }}
                             />
-
+                        </TouchableOpacity>
                         </View>
                         <View style={style.iconCaracte2}>
                             <Text style={{ fontWeight: "bold", fontSize: width * 0.045, color: 'white' }}> ¡Hola {mascota.nombre}!</Text>
