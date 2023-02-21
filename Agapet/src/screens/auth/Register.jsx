@@ -26,6 +26,7 @@ export const Register = ({ navigation }) => {
   const [phone, setPhone] = useState('');
   const [direction, setDirection] = useState('');
   const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
 
 
   const { isLoading, register } = useContext(AuthContext);
@@ -62,18 +63,19 @@ export const Register = ({ navigation }) => {
 
     }
 
-    if (!password) {
+    if (!password || !password2) {
       isValid = false;
-      return alert('Ingrese su contrasena');
+      return alert('Error en las contrasenas');
 
-    } else if (password.length < 5) {
+    } else if (password.length < 5 || password2.length < 5 || password != password2) {
       isValid = false;
-      return alert('La contrasena debe de tener mas de 5 caracteres');
+      return alert('Verifique la contrasenas');
 
     }
 
     if (isValid) {
       register(name, email, phone, direction, password);
+      alert('Registrado');
     }
   };
 
@@ -121,6 +123,14 @@ export const Register = ({ navigation }) => {
                 value={password}
                 placeholder="Ingrese su contraseña"
                 onChangeText={text => setPassword(text)}
+                secureTextEntry
+              />
+
+              <TextInput
+                style={styles.input}
+                value={password2}
+                placeholder="Ingrese su contraseña"
+                onChangeText={text => setPassword2(text)}
                 secureTextEntry
               />
 

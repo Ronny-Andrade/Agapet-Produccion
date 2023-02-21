@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
 import {
     Modal,
@@ -15,6 +16,7 @@ import {
     SafeAreaView,
     Button,
     TouchableOpacity,
+    Platform,
 
 } from 'react-native'
 const deviceHeight = Dimensions.get('window').height
@@ -54,7 +56,12 @@ export class BottomHistorialAdd extends React.Component {
             fecha: '',
             lugar: '',
             imagen: '',
-            show: false
+            show: false,
+            //Date picker
+            date: new Date(),
+            mode: 'date',
+            nuevaFecha: 'Empty',
+            showDate: false
         }
     }
 
@@ -118,6 +125,20 @@ export class BottomHistorialAdd extends React.Component {
             }
           };
 
+        const cambio =(event,selectDate)=>{
+            const currentDate = selectDate || this.state.date;
+            this.setState({showDate: Platform.OS === 'ios'});
+            this.setState({date: currentDate});
+
+            let temp = new Date(currentDate);
+            this.setState({fecha: temp.getFullYear() + '-' + (temp.getMonth()+1)  + '-' +  temp.getDate()});
+
+        }
+        const showMode=(currentMode)=>{
+            this.setState({showDate: true})
+            this.setState({mode: currentMode})
+        }
+
         const update = (fecha, lugar,descipcion, imagen) =>{
             let url = `https://agapet.pythonanywhere.com/vacuna/actualizar/${idvacuna}/`;
             let bodyFormData = new FormData()
@@ -141,7 +162,6 @@ export class BottomHistorialAdd extends React.Component {
                 'Content-Type': 'multipart/form-data'
               },
             }).then(response => {
-              console.log(response);
               alert('Datos actualizados');
             })
             .catch(error => {
@@ -171,12 +191,24 @@ export class BottomHistorialAdd extends React.Component {
                 </View>
                 <View style={{ justifyContent: 'flex-start', alignSelf: 'flex-start', flexDirection: "row", marginLeft: '5%', marginBottom: '2%' }}>
                     <Text style={{ fontSize: width * 0.035, paddingRight: 25 }}> Fecha:</Text>
-                    <TextInput
-                    style={style.input}
-                    value={this.state.fecha}
-                    placeholder=' Fecha: YYYY-MM-DD'
-                    onChangeText={text => this.setState({fecha: text})}
+                    <Button 
+                    title="Seleccionar Fecha" 
+                    onPress={()=>showMode('date')} 
+                    color={"#5FAFB9"}
+                    //margin={'2%'}
                     />
+                    {
+                        this.state.showDate && (
+                            <DateTimePicker
+                            testID="dateTimePicker"
+                            value={this.state.date}
+                            mode={this.state.mode}
+                            is24Hour={true}
+                            display='default'
+                            onChange={cambio}
+                            />
+                        )
+                    }
                 </View>
                 <View style={{ justifyContent: 'flex-start', alignSelf: 'flex-start', flexDirection: "row", marginLeft: '5%', marginBottom: '2%' }}>
                     <Text style={{ fontSize: width * 0.035, paddingRight: 27 }}> Lugar:</Text>

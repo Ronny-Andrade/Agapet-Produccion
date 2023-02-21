@@ -120,9 +120,12 @@ export const Cursos = () => {
                 <View style={style.contenedorCaract}>
                     <View style={style.caracte}>
                         <View style={style.iconCaracte}>
+                        <TouchableOpacity
+                            onPress={()=> navigation.navigate('Pet')}>
                             <Image style={style.imgIcon2}
-                                source={{uri: `https://agapet.pythonanywhere.com/${pet.image}`}}
+                            source={{uri: `https://agapet.pythonanywhere.com/${pet.image}`}}
                             />
+                        </TouchableOpacity>
 
                         </View>
                         <View style={style.iconCaracte2}>
