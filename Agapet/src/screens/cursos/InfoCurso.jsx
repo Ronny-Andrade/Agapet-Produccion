@@ -46,7 +46,7 @@ if (PixelRatio.get() <= 2) {
     FONT_BACK_LABEL = 14;
 }
 
-export const InfoCurso = ({ route }) =>  {
+export const InfoCurso = ({ route }) => {
     const cursos = route.params.Infocursos
     const usuario = route.params.usuario
     const mascota = route.params.mascota
@@ -64,23 +64,23 @@ export const InfoCurso = ({ route }) =>  {
         popupRef7.close()
     }
 
-    const getTema=()=>{
+    const getTema = () => {
         axios.get(`https://agapet.pythonanywhere.com/cursos/tema/cursos?idcurso=${cursos.idcurso}`,
-        {
-            headers: {
-                'Content-Type': 'application/json',
-            },   
-        }).then(res => {
-            let data = res.data
-            setTemas(data)
-        }).catch(e => {
-            console.log(`data error ${e}`);
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(res => {
+                let data = res.data
+                setTemas(data)
+            }).catch(e => {
+                console.log(`data error ${e}`);
             });
     };
 
     useEffect(() => {
         getTema();
-    },[])
+    }, [])
 
 
 
@@ -90,16 +90,16 @@ export const InfoCurso = ({ route }) =>  {
     return (
         <View style={style.fondo}>
 
-<View style={style.fondo3}>
+            <View style={style.fondo3}>
                 <View style={style.contenedorCaract}>
                     <View style={style.caracte}>
                         <View style={style.iconCaracte}>
-                        <TouchableOpacity
-                            onPress={()=> navigation.navigate('Pet')}>
-                            <Image style={style.imgIcon2}
-                                source={{ uri: `https://agapet.pythonanywhere.com/${mascota.image}` }}
-                            />
-                        </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate('Pet')}>
+                                <Image style={style.imgIcon2}
+                                    source={{ uri: `https://agapet.pythonanywhere.com/${mascota.image}` }}
+                                />
+                            </TouchableOpacity>
                         </View>
                         <View style={style.iconCaracte2}>
                             <Text style={{ fontWeight: "bold", fontSize: width * 0.045, color: 'white' }}> ¡Hola {mascota.nombre}!</Text>
@@ -140,10 +140,10 @@ export const InfoCurso = ({ route }) =>  {
 
             <View style={style.iconCaracte4}>
                 <YoutubePlayer
-                play={false}
-                width={width*0.9 }
-                height={height*0.3}
-                videoId={cursos.url} 
+                    play={false}
+                    width={width * 0.9}
+                    height={height * 0.3}
+                    videoId={cursos.url}
                 />
             </View>
             <View style={{ flexDirection: 'row', width: width, marginTop: '2%' }}>
@@ -178,19 +178,19 @@ export const InfoCurso = ({ route }) =>  {
             <Text style={{ fontSize: width * 0.045, marginLeft: '5%', fontWeight: "bold", margin: '1%', marginTop: '4%', marginBottom: '4%' }}> Temas</Text>
 
             {
-                temas.map(temas=>{
-                    return(
+                temas.map(temas => {
+                    return (
                         <View style={style.tablatemas} key={temas.idtema}>
                             <Image style={style.imgIcon2v1v}
                                 source={require('../../../assets/icons8-play-button-circled-90.png')}
                             />
-                            <Text style={{ fontSize: width * 0.035, width:'50%'}}>
+                            <Text style={{ fontSize: width * 0.035, width: '50%' }}>
                                 {temas.tema}
                             </Text>
-                            <Text style={{ fontSize: width * 0.035, fontWeight:'bold', width:'15%' }}>
+                            <Text style={{ fontSize: width * 0.035, fontWeight: 'bold', width: '15%' }}>
                                 {temas.minutos} min
                             </Text>
-                            <Text style={{ fontSize: width * 0.035, color: '#74c2d1',fontWeight:'bold' }}> {temas.porcentaje}%</Text>
+                            <Text style={{ fontSize: width * 0.035, color: '#74c2d1', fontWeight: 'bold' }}> {temas.porcentaje}%</Text>
                         </View>
                     )
                 })
@@ -214,7 +214,8 @@ export const InfoCurso = ({ route }) =>  {
 const style = StyleSheet.create({
 
     fondo: {
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        height:height
 
     },
 
@@ -369,8 +370,8 @@ const style = StyleSheet.create({
         alignSelf: 'center',
         borderColor: 'grey',
         height: height * 0.045,
-        alignItems:'center',
-        margin:'2%'
+        alignItems: 'center',
+        margin: '2%'
     },
     imgIcon2v1v: {
         marginLeft: '7%',

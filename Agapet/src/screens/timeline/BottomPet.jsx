@@ -65,53 +65,53 @@ export class BottomPet extends React.Component {
         const { data } = this.props
         const { estado } = this.props
         const { title } = this.props
-        if(seleccionado==1){
+        if (seleccionado == 1) {
             return (
                 <View
                     style={{
                         borderRadius: 20,
                         alignItems: 'center',
                         marginLeft: '3%',
-                        marginRight:'3%',
-                        margin:'5%'
+                        marginRight: '3%',
+                        margin: '5%'
                     }}>
-                    <View style={{ backgroundColor:'#DF9F51',borderRadius: 20, height: width * 0.18, width: width * 0.18, alignItems:'center', justifyContent:'center'}}>
-                            <Image style={style.imgIcon7}
-                                source={require('../../../assets/fotomascota.jpg')}
-                            />
+                    <View style={{ backgroundColor: '#DF9F51', borderRadius: 20, height: width * 0.18, width: width * 0.18, alignItems: 'center', justifyContent: 'center' }}>
+                        <Image style={style.imgIcon7}
+                            source={require('../../../assets/fotomascota.jpg')}
+                        />
                     </View>
-                    <Text style={{ color: 'white', fontWeight: "bold", alignSelf:'center', fontSize: width * 0.04, textAlign:'center'}}> {title}</Text>
-                    <Text style={{ paddingBottom:'4%', color: '#DF9F51',fontWeight: "bold",fontSize: width * 0.03, textAlign:'center'}}>{ estado }</Text>
-                    <Text style={{ color: 'blue',textDecorationLine: 'underline',fontSize: width * 0.025, textAlign:'center'}}>Más información</Text>
+                    <Text style={{ color: 'white', fontWeight: "bold", alignSelf: 'center', fontSize: width * 0.04, textAlign: 'center' }}> {title}</Text>
+                    <Text style={{ paddingBottom: '4%', color: '#DF9F51', fontWeight: "bold", fontSize: width * 0.03, textAlign: 'center' }}>{estado}</Text>
+                    <Text style={{ color: 'blue', textDecorationLine: 'underline', fontSize: width * 0.025, textAlign: 'center' }}>Más información</Text>
                 </View>
-    
-    
+
+
             )
-        }else{
+        } else {
             return (
                 <View
                     style={{
                         borderRadius: 20,
                         alignItems: 'center',
                         marginLeft: '3%',
-                        marginRight:'3%',
-                        margin:'5%',
+                        marginRight: '3%',
+                        margin: '5%',
                         opacity: 0.5
                     }}>
-                    <View style={{ backgroundColor:'#DF9F51',borderRadius: 20, height: width * 0.18, width: width * 0.18, alignItems:'center', justifyContent:'center'}}>
-                            <Image style={style.imgIcon7}
-                                source={require('../../../assets/fotomascota.jpg')}
-                            />
+                    <View style={{ backgroundColor: '#DF9F51', borderRadius: 20, height: width * 0.18, width: width * 0.18, alignItems: 'center', justifyContent: 'center' }}>
+                        <Image style={style.imgIcon7}
+                            source={require('../../../assets/fotomascota.jpg')}
+                        />
                     </View>
-                    <Text style={{ color: 'white', fontWeight: "bold", alignSelf:'center', fontSize: width * 0.04, textAlign:'center'}}> {title}</Text>
-                    <Text style={{ paddingBottom:'4%', color: '#DF9F51',fontWeight: "bold",fontSize: width * 0.03, textAlign:'center'}}>{ estado }</Text>
-                    <Text style={{ color: 'blue',textDecorationLine: 'underline',fontSize: width * 0.025, textAlign:'center'}}>Más información</Text>
+                    <Text style={{ color: 'white', fontWeight: "bold", alignSelf: 'center', fontSize: width * 0.04, textAlign: 'center' }}> {title}</Text>
+                    <Text style={{ paddingBottom: '4%', color: '#DF9F51', fontWeight: "bold", fontSize: width * 0.03, textAlign: 'center' }}>{estado}</Text>
+                    <Text style={{ color: 'blue', textDecorationLine: 'underline', fontSize: width * 0.025, textAlign: 'center' }}>Más información</Text>
                 </View>
-    
-    
+
+
             )
         }
-        
+
     }
 
     renderItem = ({ item }) => {
@@ -158,7 +158,7 @@ export class BottomPet extends React.Component {
                 visible={show}
                 onRequestClose={this.close}
             >
-                <View style={{  flex: 1, backgroundColor: '#000000AA', justifyContent: 'flex-end', height: '50%' }}>
+                <View style={{ flex: 1, backgroundColor: '#000000AA', justifyContent: 'flex-end', height: '50%' }}>
 
 
                     {/*this.renderTitle()*/}
@@ -175,23 +175,21 @@ export class BottomPet extends React.Component {
                             color: 'white',
                             fontWeight: 'bold',
                             fontSize: width * 0.05,
-                            marginLeft:'5%',
-                            marginRight:'5%',
-                            marginTop:'5%',
-                            marginBottom:'1%' 
+                            marginLeft: '5%',
+                            marginRight: '5%',
+                            marginTop: '5%',
+                            marginBottom: '1%'
                         }}>Mis mascotas</Text>
 
-                        <ScrollView scrollEventThrottle={16}>
-                            <View style={{
-                                flexDirection: "row"
-                            }}>
-                                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} centerContent={true}>
-                                    {this.renderContent(1)}
-                                    {this.renderContent(2)}
-                                </ScrollView>
-                            </View>
+                        <View style={{
+                            flexDirection: "row"
+                        }}>
+                                {this.renderContent(1)}
+                                {this.renderContent(2)}
+                                {this.renderContent(2)}
+                                {this.renderContent(2)}
+                        </View>
 
-                        </ScrollView>
 
 
 
@@ -207,7 +205,7 @@ const style = StyleSheet.create({
     imgIcon7: {
         height: width * 0.15,
         width: width * 0.15,
-        
+
         marginTop: '2%',
         borderRadius: 20
     }

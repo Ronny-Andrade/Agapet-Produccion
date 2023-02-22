@@ -20,8 +20,8 @@ import {
 } from 'react-native';
 import { BottomNotification } from '../../screens/timeline/BottomNotification'
 import Searchbar from '../../components/Searchbar'
-import {AuthContext} from '../../context/AuthContext';
-import {PetContext} from '../../context/PetContext';
+import { AuthContext } from '../../context/AuthContext';
+import { PetContext } from '../../context/PetContext';
 
 const popupList = [
     {
@@ -48,13 +48,15 @@ if (PixelRatio.get() <= 2) {
 
 export const Cursos = () => {
 
-    const {pet} = PetContext();
-    const {userInfo} = useContext(AuthContext);
+    const { pet } = PetContext();
+    const { userInfo } = useContext(AuthContext);
     const [dataUser, setDataUser] = useState([]);
     const [cursos, setCursos] = useState([]);
     const token = userInfo.access;
     const navigation = useNavigation();
 
+    const [texto, setTexto] = useState('');
+    const [cursosCompletos, setCursosCompletos] = useState([]);
 
     const [value, setValue] = useState()
     function updateSearch(value) {
@@ -75,43 +77,61 @@ export const Cursos = () => {
     const getUser = (token) => {
         const url = 'https://agapet.pythonanywhere.com/user/data';
         axios.get(url,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + token
-            },
-          }).then(res => {
-            let data = res.data
-            setDataUser(data);
-          }).catch(e => {
-            console.log(`data error ${e}`);
-          });
-      };
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+            }).then(res => {
+                let data = res.data
+                setDataUser(data);
+            }).catch(e => {
+                console.log(`data error ${e}`);
+            });
+    };
 
-      const getCursos = () => {
+    const getCursos = () => {
         const url = 'https://agapet.pythonanywhere.com/cursos/cursos';
         axios.get(url,
-          {
-            headers: {
-              'Content-Type': 'application/json'
-            },
-          }).then(res => {
-            let data = res.data
-            setCursos(data);
-          }).catch(e => {
-            console.log(`data error ${e}`);
-          });
-      };
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(res => {
+                let data = res.data
+                setCursos(data);
+                setCursosCompletos(data);
+            }).catch(e => {
+                console.log(`data error ${e}`);
+            });
+    };
 
 
     useEffect(() => {
         getUser(token);
         getCursos();
-      }, [])
+    }, [])
 
 
 
+    const handleTextoChange = (text) => {
 
+        setTexto(text);
+        curso(text);
+        //console.log(text);
+    };
+
+    function curso(buscador) {
+        if (buscador == '') {
+            setCursos([...new Set(cursosCompletos.map(c => c))]);
+
+
+        } else {
+            setCursos([...new Set(cursosCompletos.filter(c => (c.titulo.toUpperCase()).includes(buscador.toUpperCase())))]);
+
+        }
+
+    }
 
     return (
         <View style={style.fondo}>
@@ -120,12 +140,12 @@ export const Cursos = () => {
                 <View style={style.contenedorCaract}>
                     <View style={style.caracte}>
                         <View style={style.iconCaracte}>
-                        <TouchableOpacity
-                            onPress={()=> navigation.navigate('Pet')}>
-                            <Image style={style.imgIcon2}
-                            source={{uri: `https://agapet.pythonanywhere.com/${pet.image}`}}
-                            />
-                        </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate('Pet')}>
+                                <Image style={style.imgIcon2}
+                                    source={{ uri: `https://agapet.pythonanywhere.com/${pet.image}` }}
+                                />
+                            </TouchableOpacity>
 
                         </View>
                         <View style={style.iconCaracte2}>
@@ -172,56 +192,98 @@ export const Cursos = () => {
                         updateSearch={updateSearch}
                         />
                 </View>
+                <View style={{ alignSelf:'center', marginTop: width * 0.05, marginBottom: width * 0.06, width: width * 0.75, height: width * 0.10, borderRadius: 10, borderColor: 'grey', borderWidth: 1 }}>
+                <Image
+                    source={require('../../../assets/ic_back.png')} />
+                <TextInput value={texto} onChangeText={handleTextoChange}  ></TextInput>
+            </View>
+
                 */
             }
+
+
+            <View style={style.buscador}>
+                <View style={styles.container}>
+                    <View style={styles.searchContainer}>
+                        <View style={styles.vwSearch}>
+                            <Image
+                                style={styles.icSearch}
+                                source={require('../../../assets/ic_search.png')} />
+                        </View>
+
+                        <TextInput
+                            value={texto}
+                            placeholder="Search"
+                            style={styles.textInput}
+                            onChangeText={handleTextoChange}
+                        ></TextInput>
+                        {
+                            /*texto ?
+                                <TouchableOpacity
+                                    onPress={() => {
+
+                                        setTexto('');
+                                    }}
+                                    style={styles.vwClear}>
+                                    <Image
+                                        style={styles.icClear}
+                                        source={require('../../../assets/ic_clear.png')} />
+                                </TouchableOpacity>
+                                : <View style={styles.vwClear} />*/
+                        }
+
+                    </View>
+
+                </View >
+            </View>
 
             <ScrollView style={style.scrollStyle} >
                 {
                     cursos.map(cursos => {
-                        return(
-                            <TouchableWithoutFeedback 
-                            key={cursos.idcurso}
-                            onPress={() => navigation.navigate('InfoCurso',{Infocursos: cursos, usuario:dataUser, mascota:pet})}
+                        return (
+                            <TouchableWithoutFeedback
+                                key={cursos.idcurso}
+                                onPress={() => navigation.navigate('InfoCurso', { Infocursos: cursos, usuario: dataUser, mascota: pet })}
                             >
                                 <View style={style.fondo6}>
-                                <View style={style.contenedorCaract}>
-                                    <View style={style.caracte}>
-                                        <View style={style.iconCaracte4}>
-                                            <Image style={style.imgIcon2v}
-                                                source={{uri: `https://agapet.pythonanywhere.com/${cursos.imagen}`}}
-                                            />
-                                        </View>
-                                        <View style={style.iconCaracte5}>
-                                            <Text style={{ fontWeight: "bold", fontSize: width * 0.036 }}> {cursos.titulo}</Text>
-                                            <View style={{ flexDirection: 'row', marginTop: '1%', marginBottom: '1%' }}>
-                                                <Image style={style.imgIcon2v1}
-
-                                                    source={require('../../../assets/icons8-clock-384.png')}
+                                    <View style={style.contenedorCaract}>
+                                        <View style={style.caracte}>
+                                            <View style={style.iconCaracte4}>
+                                                <Image style={style.imgIcon2v}
+                                                    source={{ uri: `https://agapet.pythonanywhere.com/${cursos.imagen}` }}
                                                 />
-                                                <Text style={{ fontSize: width * 0.03, width: '50%' }}>
-                                                    {cursos.minutos} mins
-                                                </Text>
-                                                <Image style={style.imgIcon2v1}
-
-                                                    source={require('../../../assets/coin.png')}
-                                                />
-                                                <Text style={{ fontSize: width * 0.03 }}>
-                                                    {cursos.puntos} puntos
-                                                </Text>
                                             </View>
-                                            <Text style={{ fontSize: width * 0.03 }}>
-                                                {cursos.descripcion}
-                                            </Text>
-                                            <View style={{ backgroundColor: '#f5f5f5', width: '100%', borderRadius: 10, height: width * 0.04, marginTop:'3%'}}>
-                                                <View style={{ backgroundColor: '#5FAFB9', width: '50%', borderRadius: 10, height: width * 0.04, alignItems:'flex-end' }}>
-                                                <Text style={{ color:'white', marginRight:'5%',justifyContent:'space-between', fontSize:width*0.025}}>
-                                                {cursos.porcentaje}%
+                                            <View style={style.iconCaracte5}>
+                                                <Text style={{ fontWeight: "bold", fontSize: width * 0.036 }}> {cursos.titulo}</Text>
+                                                <View style={{ flexDirection: 'row', marginTop: '1%', marginBottom: '1%' }}>
+                                                    <Image style={style.imgIcon2v1}
+
+                                                        source={require('../../../assets/icons8-clock-384.png')}
+                                                    />
+                                                    <Text style={{ fontSize: width * 0.03, width: '50%' }}>
+                                                        {cursos.minutos} mins
+                                                    </Text>
+                                                    <Image style={style.imgIcon2v1}
+
+                                                        source={require('../../../assets/coin.png')}
+                                                    />
+                                                    <Text style={{ fontSize: width * 0.03 }}>
+                                                        {cursos.puntos} puntos
+                                                    </Text>
+                                                </View>
+                                                <Text style={{ fontSize: width * 0.03 }}>
+                                                    {cursos.descripcion}
                                                 </Text>
+                                                <View style={{ backgroundColor: '#f5f5f5', width: '100%', borderRadius: 10, height: width * 0.04, marginTop: '3%' }}>
+                                                    <View style={{ backgroundColor: '#5FAFB9', width: (cursos.porcentaje).toString() + '%', borderRadius: 10, height: width * 0.04, alignItems: 'flex-end' }}>
+                                                        <Text style={{ color: 'white', marginRight: '5%', justifyContent: 'space-between', fontSize: width * 0.025 }}>
+                                                            {cursos.porcentaje}%
+                                                        </Text>
+                                                    </View>
                                                 </View>
                                             </View>
                                         </View>
                                     </View>
-                                </View>
                                 </View>
                             </TouchableWithoutFeedback>
                         )
@@ -390,3 +452,46 @@ const style = StyleSheet.create({
     }
 
 });
+
+const styles = StyleSheet.create({
+    txtError: {
+        marginTop: '2%',
+        width: '89%',
+        color: 'white',
+
+    },
+    vwClear: {
+        flex: 0.2,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    textInput: {
+        // backgroundColor: 'green',
+        flex: 1,
+    },
+
+    vwSearch: {
+        flex: 0.2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // width: 40,
+        // backgroundColor: 'red'
+    },
+    icSearch: {
+        height: 18, width: 18
+    },
+    searchContainer:
+    {
+        //backgroundColor: 'white',
+        //width: '90%',
+        //height: 40,
+        flexDirection: 'row'
+    },
+    container: {
+        height: 80,
+        alignItems: 'center',
+        // height: '100%', width: '100%' 
+    },
+});
+
+

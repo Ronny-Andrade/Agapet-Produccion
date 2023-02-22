@@ -23,7 +23,6 @@ import { AuthContext } from '../../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 
 
-
 const popupList = [
     {
         id: 1,
@@ -87,7 +86,7 @@ export const Canjeo = ({ route }) => {
 
     const update = () => {
         const url = 'https://agapet.pythonanywhere.com/user/update';
-        puntos = (usuario.points - recompensa.puntos);
+        const puntos = (usuario.points - recompensa.puntos);
         let bodyFormData = new FormData();
         bodyFormData.append('points', puntos);
         

@@ -1,5 +1,5 @@
-import React, {useEffect, useState,useContext}  from 'react';
-import {AuthContext} from '../../context/AuthContext';
+import React, { useEffect, useState, useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 import {
     Button,
@@ -20,10 +20,11 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
-import {BottomNotification} from './BottomNotification';
-import {BottomPopup} from './BottomPopup';
-import {PetContext} from '../../context/PetContext';
-import {caminocompleto} from '../../../assets/caminocompleto.png'
+import { BottomNotification } from './BottomNotification';
+import { BottomPopup } from './BottomPopup';
+import { PetContext } from '../../context/PetContext';
+import {BottomPet} from './BottomPet';
+import { caminocompleto } from '../../../assets/caminocompleto.png'
 
 const popupList = [
     {
@@ -114,133 +115,152 @@ export const Timeline = () => {
         popupRef8.close()
     }
 
-const {userInfo, logout} = useContext(AuthContext);
-const {pet} = PetContext();
-const [image, setImage] = useState(`../../../assets/caminocompleto.png`);
+    const { userInfo, logout } = useContext(AuthContext);
+    const { pet } = PetContext();
+    const [image, setImage] = useState(`../../../assets/caminocompleto.png`);
 
 
-const [isLoading, setisLoading] = useState(true);
-const [fases, setFases] = useState([]);
+    const [isLoading, setisLoading] = useState(true);
+    const [fases, setFases] = useState([]);
 
-const getFases=()=>{
-    const url = 'https://agapet.pythonanywhere.com/user/data';
-    axios.get(url,
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+userInfo.access
-            },   
-    }).then(res => {
-        // *********************
-        axios.get(`https://agapet.pythonanywhere.com/timeline/fases?iduser=${res.data.iduser}`,
-        {
-            headers: {
-                'Content-Type': 'application/json',
-            },   
-        }).then(res => {
-            setisLoading(false);
-            let data = res.data
-            setFases(data)
-        }).catch(e => {
-            console.log(`data error ${e}`);
+    const getFases = () => {
+        const url = 'https://agapet.pythonanywhere.com/user/data';
+        axios.get(url,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + userInfo.access
+                },
+            }).then(res => {
+                // *********************
+                axios.get(`https://agapet.pythonanywhere.com/timeline/fases?iduser=${res.data.iduser}`,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }).then(res => {
+                        setisLoading(false);
+                        let data = res.data
+                        setFases(data)
+                    }).catch(e => {
+                        console.log(`data error ${e}`);
+                    });
+                // *********************
+            }).catch(e => {
+                console.log(`data error ${e}`);
             });
-        // *********************
-    }).catch(e => {
-        console.log(`data error ${e}`);
-    });
-};
+    };
 
 
 
-useEffect(() => {
-    getFases();
-},[])
-const navigation = useNavigation();
-let tipoFormulario = fases.filter(e => e.tipo =='F');
-let tipoEntrevista = fases.filter(e => e.tipo =='W');
-let tipoVisita = fases.filter(e => e.tipo =='V');
-let tipoContrato = fases.filter(e => e.tipo =='C');
-let tipoEntrega = fases.filter(e => e.tipo =='E');
-let tipoSeguimiento = fases.filter(e => e.tipo =='S');
-let path = require('../../../assets/caminocompleto.png');
-let colorFormulario = 'grey';
-let colorEntrevista = 'grey';
-let colorVisita = 'grey';
-let colorContrato = 'grey';
-let colorEntrega = 'grey';
-let colorSeguimiento = 'grey'; 
- 
-tipoFormulario.forEach(e=>{
-    if(e.estado == 'A'){
-        path = require('../../../assets/caminofase1aceptado.png');
-        colorFormulario = 'gold';
-    }else if(e.estado == 'S'){
-        path = require('../../../assets/caminofase1noaceptado.png');
-        colorFormulario = 'red';
-    }
-})
-tipoEntrevista.forEach(e=>{
-    if(e.estado == 'A'){
-        path = require('../../../assets/caminofase2aceptado.png');
-        colorEntrevista = 'gold';
-    }else if(e.estado == 'S'){
-        path = require('../../../assets/caminofase2noaceptado.png');
-        colorEntrevista = 'red';
-    }
-})
-tipoVisita.forEach(e=>{
-    if(e.estado == 'A'){
-        path = require('../../../assets/caminofase3aceptado.png');
-        colorVisita = 'gold';
-    }else if(e.estado == 'S'){
-        path = require('../../../assets/caminofase3noaceptado.png');
-        colorVisita = 'red';
-    }
-})
-tipoContrato.forEach(e=>{
-    if(e.estado == 'A'){
-        path = require('../../../assets/caminofase4aceptado.png');
-        colorContrato = 'gold';
-    }else if(e.estado == 'S'){
-        path = require('../../../assets/caminofase4noaceptado.png');
-        colorContrato = 'red';
-    }
-})
-tipoEntrega.forEach(e=>{
-    if(e.estado == 'A'){
-        path = require('../../../assets/caminofase5aceptado.png');
-        colorEntrega = 'gold';
-    }else if(e.estado == 'S'){
-        path = require('../../../assets/caminofase5noaceptado.png');
-        colorEntrega = 'red';
-    }
-})
-tipoSeguimiento.forEach(e=>{
-    if(e.estado == 'A'){
-        path = require('../../../assets/caminofase6aceptado.png');
-        colorSeguimiento = 'gold';
-    }else if(e.estado == 'S'){
-        path = require('../../../assets/caminofase6noaceptado.png');
-        colorSeguimiento = 'red';
-    }
-})
+    useEffect(() => {
+        getFases();
+    }, [])
+    const navigation = useNavigation();
+    let tipoFormulario = fases.filter(e => e.tipo == 'F');
+    let tipoEntrevista = fases.filter(e => e.tipo == 'W');
+    let tipoVisita = fases.filter(e => e.tipo == 'V');
+    let tipoContrato = fases.filter(e => e.tipo == 'C');
+    let tipoEntrega = fases.filter(e => e.tipo == 'E');
+    let tipoSeguimiento = fases.filter(e => e.tipo == 'S');
+    let path = require('../../../assets/caminocompleto.png');
+    let colorFormulario = 'grey';
+    let colorEntrevista = 'grey';
+    let colorVisita = 'grey';
+    let colorContrato = 'grey';
+    let colorEntrega = 'grey';
+    let colorSeguimiento = 'grey';
+
+    tipoFormulario.forEach(e => {
+        if (e.estado == 'A') {
+            path = require('../../../assets/caminofase1aceptado.png');
+            colorFormulario = 'gold';
+        } else if (e.estado == 'S') {
+            path = require('../../../assets/caminofase1noaceptado.png');
+            colorFormulario = 'red';
+        }
+    })
+    tipoEntrevista.forEach(e => {
+        if (e.estado == 'A') {
+            path = require('../../../assets/caminofase2aceptado.png');
+            colorEntrevista = 'gold';
+        } else if (e.estado == 'S') {
+            path = require('../../../assets/caminofase2noaceptado.png');
+            colorEntrevista = 'red';
+        }
+    })
+    tipoVisita.forEach(e => {
+        if (e.estado == 'A') {
+            path = require('../../../assets/caminofase3aceptado.png');
+            colorVisita = 'gold';
+        } else if (e.estado == 'S') {
+            path = require('../../../assets/caminofase3noaceptado.png');
+            colorVisita = 'red';
+        }
+    })
+    tipoContrato.forEach(e => {
+        if (e.estado == 'A') {
+            path = require('../../../assets/caminofase4aceptado.png');
+            colorContrato = 'gold';
+        } else if (e.estado == 'S') {
+            path = require('../../../assets/caminofase4noaceptado.png');
+            colorContrato = 'red';
+        }
+    })
+    tipoEntrega.forEach(e => {
+        if (e.estado == 'A') {
+            path = require('../../../assets/caminofase5aceptado.png');
+            colorEntrega = 'gold';
+        } else if (e.estado == 'S') {
+            path = require('../../../assets/caminofase5noaceptado.png');
+            colorEntrega = 'red';
+        }
+    })
+    tipoSeguimiento.forEach(e => {
+        if (e.estado == 'A') {
+            path = require('../../../assets/caminofase6aceptado.png');
+            colorSeguimiento = 'gold';
+        } else if (e.estado == 'S') {
+            path = require('../../../assets/caminofase6noaceptado.png');
+            colorSeguimiento = 'red';
+        }
+    })
 
 
-  return (
-    <View style={style.fondo}>
+    return (
+        <View style={style.fondo}>
 
             <View style={style.fondo3}>
                 <View style={style.contenedorCaract}>
                     <View style={style.caracte}>
+                        {/*<View style={style.iconCaracte}>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate('Pet')}>
+                                <Image style={style.imgIcon2}
+                                    source={{ uri: `https://agapet.pythonanywhere.com/${pet.image}` }}
+                                />
+                            </TouchableOpacity>
+
+                        </View>*/}
+
                         <View style={style.iconCaracte}>
-                        <TouchableOpacity
-                        onPress={()=> navigation.navigate('Pet')}>
-                            <Image style={style.imgIcon2}
-                            source={{uri: `https://agapet.pythonanywhere.com/${pet.image}`}}
+                            <SafeAreaView style={style.container2}>
+                                <TouchableWithoutFeedback onPress={onShowPopup8}>
+                                    <Image style={style.imgIcon2}
+                                        source={{ uri: `https://agapet.pythonanywhere.com/${pet.image}` }}
+                                    />
+                                </TouchableWithoutFeedback>
+                            </SafeAreaView>
+                            <BottomPet
+                                title='Chester'
+                                estado='Adoptado'
+                                ref={(target) => popupRef8 = target}
+                                onTouchOutside={onClosePopup8}
+                                data={popupList}
                             />
-                        </TouchableOpacity>
 
                         </View>
+
                         <View style={style.iconCaracte2}>
                             <Text style={{ fontWeight: "bold", fontSize: width * 0.045, color: 'white' }}> ¡Hola {pet.nombre}!</Text>
                             <View style={{ flexDirection: "row", marginLeft: '2%', marginTop: '2%' }}>
@@ -300,38 +320,38 @@ tipoSeguimiento.forEach(e=>{
                                         <Text style={{ color: colorSeguimiento, fontSize: width * 0.035, marginBottom: '1%' }}> Seguimiento</Text>
 
                                         <View style={{ position: 'absolute', alignSelf: 'flex-end', paddingLeft: width * 0.1 }}>
-                                        { 
-                                        tipoSeguimiento.map((Seguimiento)=>{
-                                            if(Seguimiento.estado == 'A'){
-                                                return(
-                                                    <Image style={style.imgIcon4}
-                                                    key= {Seguimiento.idtimline}
-                                                    source={require('../../../assets/check.png')}
-                                                    /> 
-                                                )
-                                            }
-                                        })
+                                            {
+                                                tipoSeguimiento.map((Seguimiento) => {
+                                                    if (Seguimiento.estado == 'A') {
+                                                        return (
+                                                            <Image style={style.imgIcon4}
+                                                                key={Seguimiento.idtimline}
+                                                                source={require('../../../assets/check.png')}
+                                                            />
+                                                        )
+                                                    }
+                                                })
 
-                                        }
+                                            }
                                         </View>
                                     </View>
 
                                 </TouchableWithoutFeedback>
                             </SafeAreaView>
                             {
-                                tipoSeguimiento.map((Seguimiento)=>{
-                                return(
-                                    <BottomPopup
-                                    key={Seguimiento.idtimline}
-                                    title='Seguimiento'
-                                    estado={Seguimiento.estado}
-                                    src={require('../../../assets/perro.png')}
-                                    ref={(target) => popupRef6 = target}
-                                    onTouchOutside={onClosePopup6}
-                                    data={popupList}
-                                />
-                                )
-                               }) 
+                                tipoSeguimiento.map((Seguimiento) => {
+                                    return (
+                                        <BottomPopup
+                                            key={Seguimiento.idtimline}
+                                            title='Seguimiento'
+                                            estado={Seguimiento.estado}
+                                            src={require('../../../assets/perro.png')}
+                                            ref={(target) => popupRef6 = target}
+                                            onTouchOutside={onClosePopup6}
+                                            data={popupList}
+                                        />
+                                    )
+                                })
                             }
                         </View>
 
@@ -353,38 +373,38 @@ tipoSeguimiento.forEach(e=>{
                                             />
                                         </View>
                                         <View style={{ position: 'absolute', alignSelf: 'flex-end' }}>
-                                        { 
-                                        tipoEntrega.map((Entrega)=>{
-                                            if(Entrega.estado == 'A'){
-                                                return(
-                                                    <Image style={style.imgIcon4}
-                                                    key= {Entrega.idtimline}
-                                                    source={require('../../../assets/check.png')}
-                                                    /> 
-                                                )
-                                            }
-                                        })
+                                            {
+                                                tipoEntrega.map((Entrega) => {
+                                                    if (Entrega.estado == 'A') {
+                                                        return (
+                                                            <Image style={style.imgIcon4}
+                                                                key={Entrega.idtimline}
+                                                                source={require('../../../assets/check.png')}
+                                                            />
+                                                        )
+                                                    }
+                                                })
 
-                                        }
+                                            }
                                         </View>
                                     </View>
 
                                 </TouchableWithoutFeedback>
                             </SafeAreaView>
                             {
-                                tipoEntrega.map((Entrega)=>{
-                                return(
-                                    <BottomPopup
-                                    key={Entrega.idtimline}
-                                    title='Entrega de mascota'
-                                    estado={Entrega.estado}
-                                    src={require('../../../assets/gatito.png')}
-                                    ref={(target) => popupRef5 = target}
-                                    onTouchOutside={onClosePopup5}
-                                    data={popupList}
-                                />
-                                )
-                               }) 
+                                tipoEntrega.map((Entrega) => {
+                                    return (
+                                        <BottomPopup
+                                            key={Entrega.idtimline}
+                                            title='Entrega de mascota'
+                                            estado={Entrega.estado}
+                                            src={require('../../../assets/gatito.png')}
+                                            ref={(target) => popupRef5 = target}
+                                            onTouchOutside={onClosePopup5}
+                                            data={popupList}
+                                        />
+                                    )
+                                })
                             }
                         </View>
 
@@ -399,46 +419,46 @@ tipoSeguimiento.forEach(e=>{
                                         <View style={{ justifyContent: 'center' }}>
                                             <Image style={style.imgIcon7}
                                                 source={require('../../../assets/acuerdo.png')}
-                                             />
+                                            />
                                         </View>
                                         <Icon
                                             size={width * 0.05}
                                             name='arrow-left-bold'
                                             color={colorContrato} />
-                                        <Text style={{ color: colorContrato,  fontSize: width * 0.035, marginBottom: '1%' }}> Firma de contrato</Text>
+                                        <Text style={{ color: colorContrato, fontSize: width * 0.035, marginBottom: '1%' }}> Firma de contrato</Text>
                                         <View style={{ position: 'absolute', alignSelf: 'flex-end', paddingLeft: width * 0.1 }}>
-                                        { 
-                                        tipoContrato.map((Contrato)=>{
-                                            if(Contrato.estado == 'A'){
-                                                return(
-                                                    <Image style={style.imgIcon4}
-                                                    key= {Contrato.idtimline}
-                                                    source={require('../../../assets/check.png')}
-                                                    /> 
-                                                )
-                                            }
-                                        })
+                                            {
+                                                tipoContrato.map((Contrato) => {
+                                                    if (Contrato.estado == 'A') {
+                                                        return (
+                                                            <Image style={style.imgIcon4}
+                                                                key={Contrato.idtimline}
+                                                                source={require('../../../assets/check.png')}
+                                                            />
+                                                        )
+                                                    }
+                                                })
 
-                                        }
+                                            }
                                         </View>
                                     </View>
 
                                 </TouchableWithoutFeedback>
                             </SafeAreaView>
                             {
-                               tipoContrato.map((Contrato)=>{
-                                return(
-                                    <BottomPopup
-                                    key={Contrato.idtimline}
-                                     title='Firma de contrato'
-                                     estado={Contrato.estado}
-                                     src={require('../../../assets/acuerdo.png')}
-                                     ref={(target) => popupRef4 = target}
-                                     onTouchOutside={onClosePopup4}
-                                     data={popupList}
-                                 />
-                                )
-                               }) 
+                                tipoContrato.map((Contrato) => {
+                                    return (
+                                        <BottomPopup
+                                            key={Contrato.idtimline}
+                                            title='Firma de contrato'
+                                            estado={Contrato.estado}
+                                            src={require('../../../assets/acuerdo.png')}
+                                            ref={(target) => popupRef4 = target}
+                                            onTouchOutside={onClosePopup4}
+                                            data={popupList}
+                                        />
+                                    )
+                                })
                             }
                         </View>
 
@@ -461,38 +481,38 @@ tipoSeguimiento.forEach(e=>{
                                             />
                                         </View>
                                         <View style={{ position: 'absolute', alignSelf: 'flex-end', paddingLeft: width * 0.23 }}>
-                                        { 
-                                        tipoVisita.map((Visita)=>{
-                                            if(Visita.estado == 'A'){
-                                                return(
-                                                    <Image style={style.imgIcon4}
-                                                    key= {Visita.idtimline}
-                                                    source={require('../../../assets/check.png')}
-                                                    /> 
-                                                )
-                                            }
-                                        })
+                                            {
+                                                tipoVisita.map((Visita) => {
+                                                    if (Visita.estado == 'A') {
+                                                        return (
+                                                            <Image style={style.imgIcon4}
+                                                                key={Visita.idtimline}
+                                                                source={require('../../../assets/check.png')}
+                                                            />
+                                                        )
+                                                    }
+                                                })
 
-                                        }
+                                            }
                                         </View>
                                     </View>
 
                                 </TouchableWithoutFeedback>
                             </SafeAreaView>
                             {
-                               tipoVisita.map((Visita)=>{
-                                return(
-                                    <BottomPopup
-                                    key={Visita.idtimline}
-                                    title='Visita a domicilio'
-                                    estado={Visita.estado}
-                                    ref={(target) => popupRef3 = target}
-                                    src={require('../../../assets/casa.png')}
-                                    onTouchOutside={onClosePopup3}
-                                    data={popupList}
-                                />
-                                )
-                               }) 
+                                tipoVisita.map((Visita) => {
+                                    return (
+                                        <BottomPopup
+                                            key={Visita.idtimline}
+                                            title='Visita a domicilio'
+                                            estado={Visita.estado}
+                                            ref={(target) => popupRef3 = target}
+                                            src={require('../../../assets/casa.png')}
+                                            onTouchOutside={onClosePopup3}
+                                            data={popupList}
+                                        />
+                                    )
+                                })
                             }
 
                         </View>
@@ -517,39 +537,39 @@ tipoSeguimiento.forEach(e=>{
                                         <Text style={{ color: colorEntrevista, fontSize: width * 0.035, marginBottom: '1%' }}> Entrevista WhatsApp</Text>
 
                                         <View style={{ position: 'absolute', alignSelf: 'flex-end', paddingLeft: width * 0.1 }}>
-                                        { 
-                                        tipoEntrevista.map((entrevista)=>{
-                                            if(entrevista.estado == 'A'){
-                                                return(
-                                                    <Image style={style.imgIcon4}
-                                                    key= {entrevista.idtimline}
-                                                    source={require('../../../assets/check.png')}
-                                                    /> 
-                                                )
-                                            }
-                                        })
+                                            {
+                                                tipoEntrevista.map((entrevista) => {
+                                                    if (entrevista.estado == 'A') {
+                                                        return (
+                                                            <Image style={style.imgIcon4}
+                                                                key={entrevista.idtimline}
+                                                                source={require('../../../assets/check.png')}
+                                                            />
+                                                        )
+                                                    }
+                                                })
 
-                                        }
+                                            }
                                         </View>
                                     </View>
 
                                 </TouchableWithoutFeedback>
                             </SafeAreaView>
                             {
-                               tipoEntrevista.map((entrevista)=>{
-                                return(
-                                    <BottomPopup
-                                    key={entrevista.idtimline}
-                                    title='Entrevista WhatsApp'
-                                    estado= {entrevista.estado}
-                                    src={require('../../../assets/chat.png')}
-                                    ref={(target) => popupRef2 = target}
-                                    onTouchOutside={onClosePopup2}
-                                    data={popupList}
-                                />
+                                tipoEntrevista.map((entrevista) => {
+                                    return (
+                                        <BottomPopup
+                                            key={entrevista.idtimline}
+                                            title='Entrevista WhatsApp'
+                                            estado={entrevista.estado}
+                                            src={require('../../../assets/chat.png')}
+                                            ref={(target) => popupRef2 = target}
+                                            onTouchOutside={onClosePopup2}
+                                            data={popupList}
+                                        />
 
-                                )
-                               }) 
+                                    )
+                                })
                             }
                         </View>
                         {/*Formulario*/}
@@ -570,38 +590,38 @@ tipoSeguimiento.forEach(e=>{
                                             />
                                         </View>
                                         <View style={{ position: 'absolute', alignSelf: 'flex-end', paddingLeft: width * 0.23 }}>
-                                        { 
-                                        tipoFormulario.map((formulario)=>{
-                                            if(formulario.estado == 'A'){
-                                                return(
-                                                    <Image style={style.imgIcon4}
-                                                    key= {formulario.idtimline}
-                                                    source={require('../../../assets/check.png')}
-                                                    /> 
-                                                )
-                                            }
-                                        })
+                                            {
+                                                tipoFormulario.map((formulario) => {
+                                                    if (formulario.estado == 'A') {
+                                                        return (
+                                                            <Image style={style.imgIcon4}
+                                                                key={formulario.idtimline}
+                                                                source={require('../../../assets/check.png')}
+                                                            />
+                                                        )
+                                                    }
+                                                })
 
-                                        }
+                                            }
                                         </View>
                                     </View>
 
                                 </TouchableWithoutFeedback>
                             </SafeAreaView>
                             {
-                               tipoFormulario.map((formulario)=>{
-                                return(
-                                    <BottomPopup
-                                    key={formulario.idtimline}
-                                    title='Formulario'
-                                    estado={formulario.estado}
-                                    src={require('../../../assets/formulario-de-consentimiento-del-donante.png')}
-                                    ref={(target) => popupRef = target}
-                                    onTouchOutside={onClosePopup}
-                                    data={popupList}
-                                />
-                                )
-                               }) 
+                                tipoFormulario.map((formulario) => {
+                                    return (
+                                        <BottomPopup
+                                            key={formulario.idtimline}
+                                            title='Formulario'
+                                            estado={formulario.estado}
+                                            src={require('../../../assets/formulario-de-consentimiento-del-donante.png')}
+                                            ref={(target) => popupRef = target}
+                                            onTouchOutside={onClosePopup}
+                                            data={popupList}
+                                        />
+                                    )
+                                })
                             }
                         </View>
 
@@ -611,14 +631,14 @@ tipoSeguimiento.forEach(e=>{
                     </View>
 
                 </ImageBackground>
-                <View style={{ height:height*0.07}}>
+                <View style={{ height: height * 0.07 }}>
 
                 </View>
 
             </ScrollView>
 
         </View>
-  );
+    );
 };
 
 const style = StyleSheet.create({
@@ -934,7 +954,7 @@ const style = StyleSheet.create({
     imgFondo: {
         marginTop: '1%',
         width: width,
-        height:height
+        height: height
     },
     container2: {
         width: '90%'

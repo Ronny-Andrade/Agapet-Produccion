@@ -20,8 +20,8 @@ import {
 } from 'react-native';
 import { BottomNotification } from '../../screens/timeline/BottomNotification'
 import Searchbar from '../../components/Searchbar'
-import {AuthContext} from '../../context/AuthContext';
-import {PetContext} from '../../context/PetContext';
+import { AuthContext } from '../../context/AuthContext';
+import { PetContext } from '../../context/PetContext';
 
 
 const popupList = [
@@ -52,26 +52,29 @@ export const Recompensa = () => {
     const [value, setValue] = useState()
     const [dataUser, setDataUser] = useState([]);
     const [recompensa, setRecompensa] = useState([]);
-    const {userInfo} = useContext(AuthContext);
-    const {pet} = PetContext();
+    const { userInfo } = useContext(AuthContext);
+    const { pet } = PetContext();
     const navigation = useNavigation();
     const token = userInfo.access;
+
+    const [texto, setTexto] = useState('');
+    const [recompensaCompletos, setRecompensaCompletos] = useState([]);
 
     const getUser = (token) => {
         const url = 'https://agapet.pythonanywhere.com/user/data';
         axios.get(url,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + token
-            },
-          }).then(res => {
-            let data = res.data
-            setDataUser(data);
-          }).catch(e => {
-            console.log(`data error ${e}`);
-          });
-      };
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+            }).then(res => {
+                let data = res.data
+                setDataUser(data);
+            }).catch(e => {
+                console.log(`data error ${e}`);
+            });
+    };
 
     function updateSearch(value) {
         //do your search logic or anything
@@ -81,17 +84,18 @@ export const Recompensa = () => {
     const getRecompensa = () => {
         const url = 'https://agapet.pythonanywhere.com/recompensa/recompensa';
         axios.get(url,
-          {
-            headers: {
-              'Content-Type': 'application/json'
-            },
-          }).then(res => {
-            let data = res.data
-            setRecompensa(data);
-          }).catch(e => {
-            console.log(`data error ${e}`);
-          });
-      };
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(res => {
+                let data = res.data
+                setRecompensa(data);
+                setRecompensaCompletos(data);
+            }).catch(e => {
+                console.log(`data error ${e}`);
+            });
+    };
 
 
 
@@ -106,7 +110,26 @@ export const Recompensa = () => {
     useEffect(() => {
         getUser(token);
         getRecompensa();
-      }, [])
+    }, [])
+
+    const handleTextoChange = (text) => {
+
+        setTexto(text);
+        recompensas(text);
+        //console.log(text);
+    };
+
+    function recompensas(buscador) {
+        if (buscador == '') {
+            setRecompensa([...new Set(recompensaCompletos.map(c => c))]);
+
+
+        } else {
+            setRecompensa([...new Set(recompensaCompletos.filter(c => (c.titulo.toUpperCase()).includes(buscador.toUpperCase())))]);
+
+        }
+
+    }
 
 
 
@@ -119,12 +142,12 @@ export const Recompensa = () => {
                 <View style={style.contenedorCaract}>
                     <View style={style.caracte}>
                         <View style={style.iconCaracte}>
-                        <TouchableOpacity
-                            onPress={()=> navigation.navigate('Pet')}>
-                            <Image style={style.imgIcon2}
-                            source={{uri: `https://agapet.pythonanywhere.com/${pet.image}`}}
-                            />
-                        </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate('Pet')}>
+                                <Image style={style.imgIcon2}
+                                    source={{ uri: `https://agapet.pythonanywhere.com/${pet.image}` }}
+                                />
+                            </TouchableOpacity>
 
                         </View>
                         <View style={style.iconCaracte2}>
@@ -163,49 +186,75 @@ export const Recompensa = () => {
                 </View>
             </View>
             <Text style={{ fontSize: width * 0.065, margin: '2%', fontWeight: "bold" }}> Recompensas</Text>
-            {
-            /*
+
             <View style={style.buscador}>
-                <Searchbar
-                    value={value}
-                    updateSearch={updateSearch}
-                />
+                <View style={styles.container}>
+                    <View style={styles.searchContainer}>
+                        <View style={styles.vwSearch}>
+                            <Image
+                                style={styles.icSearch}
+                                source={require('../../../assets/ic_search.png')} />
+                        </View>
+
+                        <TextInput
+                            value={texto}
+                            placeholder="Search"
+                            style={styles.textInput}
+                            onChangeText={handleTextoChange}
+                        ></TextInput>
+                        {
+                            /*texto ?
+                                <TouchableOpacity
+                                    onPress={() => {
+
+                                        setTexto('');
+                                    }}
+                                    style={styles.vwClear}>
+                                    <Image
+                                        style={styles.icClear}
+                                        source={require('../../../assets/ic_clear.png')} />
+                                </TouchableOpacity>
+                                : <View style={styles.vwClear} />*/
+                        }
+
+                    </View>
+
+                </View >
             </View>
-            */
-            }
+
             <ScrollView style={style.scrollStyle} >
                 {
                     recompensa.map(recompensa => {
-                        if(recompensa.activo === true){
-                            return(
+                        if (recompensa.activo === true) {
+                            return (
                                 <TouchableWithoutFeedback
-                                key={recompensa.idrecompensa}
-                                onPress={() => navigation.navigate('Canjeo',{recompensa: recompensa, usuario:dataUser, mascota:pet})}
+                                    key={recompensa.idrecompensa}
+                                    onPress={() => navigation.navigate('Canjeo', { recompensa: recompensa, usuario: dataUser, mascota: pet })}
                                 >
-                                <View style={style.fondo6}  >
-                                <View style={style.contenedorCaract} >
-                                    <View style={style.caracte} >
-                                        <View style={style.iconCaracte4}>
-                                            <Image style={style.imgIcon2v}
-        
-                                            source={{uri: `https://agapet.pythonanywhere.com/${recompensa.imagen}`}}
-                                            />
-                                        </View>
-                                        <View style={style.iconCaracte5}>
-                                            <Text style={{ fontWeight: "bold", fontSize: width * 0.036 }}> {recompensa.titulo}</Text>
-                                            <Text style={{ fontSize: width * 0.03 }}> {recompensa.descripcionInicial}</Text>
-                                            <Text style={{ fontSize: width * 0.03 }}> Precio: ${recompensa.precio}</Text>
-                                            <Text style={{ fontSize: width * 0.03, color: '#74c2d1' }}> Descuento: {recompensa.descuento}%</Text>
-                                        </View>
-                                        <View style={style.iconCaracte5v}>
-                                            <Text style={{ fontWeight: "bold", fontSize: width * 0.05 }}>{recompensa.puntos}</Text>
-                                            <Text style={{ fontSize: width * 0.03 }}> pts</Text>
+                                    <View style={style.fondo6}  >
+                                        <View style={style.contenedorCaract} >
+                                            <View style={style.caracte} >
+                                                <View style={style.iconCaracte4}>
+                                                    <Image style={style.imgIcon2v}
+
+                                                        source={{ uri: `https://agapet.pythonanywhere.com/${recompensa.imagen}` }}
+                                                    />
+                                                </View>
+                                                <View style={style.iconCaracte5}>
+                                                    <Text style={{ fontWeight: "bold", fontSize: width * 0.036 }}> {recompensa.titulo}</Text>
+                                                    <Text style={{ fontSize: width * 0.03 }}> {recompensa.descripcionInicial}</Text>
+                                                    <Text style={{ fontSize: width * 0.03 }}> Precio: ${recompensa.precio}</Text>
+                                                    <Text style={{ fontSize: width * 0.03, color: '#74c2d1' }}> Descuento: {recompensa.descuento}%</Text>
+                                                </View>
+                                                <View style={style.iconCaracte5v}>
+                                                    <Text style={{ fontWeight: "bold", fontSize: width * 0.05 }}>{recompensa.puntos}</Text>
+                                                    <Text style={{ fontSize: width * 0.03 }}> pts</Text>
+                                                </View>
+                                            </View>
+
                                         </View>
                                     </View>
-        
-                                </View>
-                            </View>
-                            </TouchableWithoutFeedback>
+                                </TouchableWithoutFeedback>
                             )
                         }
                     })
@@ -361,7 +410,50 @@ const style = StyleSheet.create({
         height: width * 0.12,
         borderRadius: 10,
         borderColor: 'grey',
-        paddingTop:'3%'
+        paddingTop: '3%'
     }
 
 });
+
+const styles = StyleSheet.create({
+    txtError: {
+        marginTop: '2%',
+        width: '89%',
+        color: 'white',
+
+    },
+    vwClear: {
+        flex: 0.2,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    textInput: {
+        // backgroundColor: 'green',
+        flex: 1,
+    },
+
+    vwSearch: {
+        flex: 0.2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // width: 40,
+        // backgroundColor: 'red'
+    },
+    icSearch: {
+        height: 18, width: 18
+    },
+    searchContainer:
+    {
+        //backgroundColor: 'white',
+        //width: '90%',
+        //height: 40,
+        flexDirection: 'row'
+    },
+    container: {
+        height: 80,
+        alignItems: 'center',
+        // height: '100%', width: '100%' 
+    },
+});
+
+

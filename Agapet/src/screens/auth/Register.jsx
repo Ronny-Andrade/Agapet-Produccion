@@ -89,7 +89,7 @@ export const Register = ({ navigation }) => {
             resizeMode={'contain'} />
           <Spinner visible={isLoading} />
           <View style={styles.fondo2}>
-            <View >
+            <View style={{marginTop:'7%'}} >
               <TextInput
                 style={styles.input}
                 value={name}
@@ -231,8 +231,8 @@ const styles = StyleSheet.create({
       marginRight: '10%',
       padding: 20,
       borderRadius: 10,
-      marginBottom: '5%',
-      marginTop: '5%'
+      //marginBottom: '5%',
+      //marginTop: '5%'
   },
   img: {
       width: '5%',

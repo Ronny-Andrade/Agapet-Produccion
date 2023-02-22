@@ -159,32 +159,7 @@ export const Faq = () => {
 
     }
 
-    function temas() {
 
-        if (tema2 == 'All') {
-            return (
-                <FlatList
-                    data={Information}
-                    keyExtractor={(item) => item.faqid.toString()}
-                    renderItem={({ item }) => (
-                        <AccordionItem title={item.pregunta} bodyText={item.respuesta} />
-                    )}
-                />
-            )
-        } else {
-            let fil2 = [...new Set(faq.filter(c => (c.temaid.toString()).includes(tema2)))];
-            return (
-                <FlatList
-                    data={fil2}
-                    keyExtractor={(item) => item.faqid.toString()}
-                    renderItem={({ item }) => (
-                        <AccordionItem title={item.pregunta} bodyText={item.respuesta} />
-                    )}
-                />
-            );
-        }
-
-    }
 
     return (
         <View style={style.fondo}>
@@ -194,10 +169,45 @@ export const Faq = () => {
 
             </ImageBackground>
 
-            <View style={{ marginTop: width * 0.05, marginBottom: width * 0.06, width: width * 0.75, height: width * 0.12, borderRadius: 10, borderColor: 'grey', borderWidth: 1 }}>
+            {/*<View style={{ marginTop: width * 0.05, marginBottom: width * 0.06, width: width * 0.75, height: width * 0.12, borderRadius: 10, borderColor: 'grey', borderWidth: 1 }}>
                 <Image
                     source={require('../../../assets/ic_back.png')} />
                 <TextInput value={texto} onChangeText={handleTextoChange}  ></TextInput>
+            </View>*/}
+
+            <View style={style.buscador}>
+                <View style={styles.container}>
+                    <View style={styles.searchContainer}>
+                        <View style={styles.vwSearch}>
+                            <Image
+                                style={styles.icSearch}
+                                source={require('../../../assets/ic_search.png')} />
+                        </View>
+
+                        <TextInput
+                            value={texto}
+                            placeholder="Search"
+                            style={styles.textInput}
+                            onChangeText={handleTextoChange}
+                        ></TextInput>
+                        {
+                            /*texto ?
+                                <TouchableOpacity
+                                    onPress={() => {
+
+                                        setTexto('');
+                                    }}
+                                    style={styles.vwClear}>
+                                    <Image
+                                        style={styles.icClear}
+                                        source={require('../../../assets/ic_clear.png')} />
+                                </TouchableOpacity>
+                                : <View style={styles.vwClear} />*/
+                        }
+
+                    </View>
+
+                </View >
             </View>
 
             <Text style={style.titulo}>Top Questions</Text>
@@ -211,7 +221,7 @@ export const Faq = () => {
                             key={c}
                             
                         >
-                            <Text style={style.titulo3} >{c}</Text>
+                            <Text style={style.tituloSelec} >{c}</Text>
                         </TouchableOpacity>
                     ))
                 }
@@ -253,11 +263,26 @@ const style = StyleSheet.create({
     titulo3: {
         color: 'black',
         fontWeight: 'bold',
-        fontSize: width * 0.035,
+        fontSize: width * 0.04,
         alignSelf: 'flex-start',
         marginLeft: '4%',
         backgroundColor: '#B900FF',
-        borderRadius: width * 0.03
+        borderRadius: width * 0.02,
+        height:width*0.07,
+        width:width*0.1,
+        textAlign:'center'
+    },
+    tituloSelec: {
+        color: 'black',
+        fontWeight: 'bold',
+        fontSize: width * 0.04,
+        alignSelf: 'flex-start',
+        marginLeft: '4%',
+        backgroundColor: '#FFFAEE',
+        borderRadius: width * 0.02,
+        height:width*0.07,
+        width:width*0.1,
+        textAlign:'center'
     },
     fondo: {
         backgroundColor: 'white',
@@ -273,7 +298,61 @@ const style = StyleSheet.create({
     imgFondo: {
         width: width,
         height: height * 0.25
+    },
+    buscador: {
+        backgroundColor: '#f5f5f5',
+        alignSelf: 'center',
+        margin: '2%',
+        width: width * 0.9,
+        height: width * 0.12,
+        borderRadius: 10,
+        borderColor: 'grey',
+        paddingTop: '3%'
     }
 });
+
+const styles = StyleSheet.create({
+    txtError: {
+        marginTop: '2%',
+        width: '89%',
+        color: 'white',
+
+    },
+    vwClear: {
+        flex: 0.2,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    textInput: {
+        // backgroundColor: 'green',
+        flex: 1,
+    },
+
+    vwSearch: {
+        flex: 0.2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // width: 40,
+        // backgroundColor: 'red'
+    },
+    icSearch: {
+        height: 18, width: 18
+    },
+    searchContainer:
+    {
+        //backgroundColor: 'white',
+        //width: '90%',
+        //height: 40,
+        flexDirection: 'row'
+    },
+    container: {
+        height: 80,
+        alignItems: 'center',
+        // height: '100%', width: '100%' 
+    },
+});
+
+
+
 
 
