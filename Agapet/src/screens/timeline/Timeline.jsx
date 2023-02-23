@@ -233,7 +233,7 @@ export const Timeline = () => {
             <View style={style.fondo3}>
                 <View style={style.contenedorCaract}>
                     <View style={style.caracte}>
-                        {/*<View style={style.iconCaracte}>
+                        <View style={style.iconCaracte}>
                             <TouchableOpacity
                                 onPress={() => navigation.navigate('Pet')}>
                                 <Image style={style.imgIcon2}
@@ -241,8 +241,8 @@ export const Timeline = () => {
                                 />
                             </TouchableOpacity>
 
-                        </View>*/}
-
+                        </View>
+                        {/*
                         <View style={style.iconCaracte}>
                             <SafeAreaView style={style.container2}>
                                 <TouchableWithoutFeedback onPress={onShowPopup8}>
@@ -260,6 +260,7 @@ export const Timeline = () => {
                             />
 
                         </View>
+                        */}
 
                         <View style={style.iconCaracte2}>
                             <Text style={{ fontWeight: "bold", fontSize: width * 0.045, color: 'white' }}> ¡Hola {pet.nombre}!</Text>
