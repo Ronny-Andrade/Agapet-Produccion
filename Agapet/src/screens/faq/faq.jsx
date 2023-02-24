@@ -127,7 +127,7 @@ export const Faq = () => {
 
     function preguntas(buscador) {
 
-        if ((buscador == '' && tipo==1 ) || ( tema2=='All' && tipo==0) ) {
+        if ((buscador == '' && tipo == 1) || (tema2 == 'All' && tipo == 0)) {
             return (
                 <FlatList
                     data={Information}
@@ -138,14 +138,14 @@ export const Faq = () => {
                 />
             )
         } else {
-            let fil=[];
-            if(tipo==1){
-                 fil = [...new Set(faq.filter(c => (c.pregunta.toUpperCase()).includes(texto.toUpperCase())))];
+            let fil = [];
+            if (tipo == 1) {
+                fil = [...new Set(faq.filter(c => (c.pregunta.toUpperCase()).includes(texto.toUpperCase())))];
 
-            }else{
-                 fil = [...new Set(faq.filter(c => (c.temaid.toString()).includes(tema2)))];
+            } else {
+                fil = [...new Set(faq.filter(c => (c.temaid.toString()).includes(tema2)))];
             }
-            
+
             return (
                 <FlatList
                     data={fil}
@@ -175,71 +175,75 @@ export const Faq = () => {
                 <TextInput value={texto} onChangeText={handleTextoChange}  ></TextInput>
             </View>*/}
 
-            <View style={style.buscador}>
-                <View style={styles.container}>
-                    <View style={styles.searchContainer}>
-                        <View style={styles.vwSearch}>
-                            <Image
-                                style={styles.icSearch}
-                                source={require('../../../assets/ic_search.png')} />
+            <ImageBackground source={require('../../../assets/huellasfaq.jpg')} style={{alignItems :'center', height:height*0.8, width:width}}>
+                <View style={style.buscador}>
+                    <View style={styles.container}>
+                        <View style={styles.searchContainer}>
+                            <View style={styles.vwSearch}>
+                                <Image
+                                    style={styles.icSearch}
+                                    source={require('../../../assets/ic_search.png')} />
+                            </View>
+
+                            <TextInput
+                                value={texto}
+                                placeholder="Search"
+                                style={styles.textInput}
+                                onChangeText={handleTextoChange}
+                            ></TextInput>
+                            {
+                                /*texto ?
+                                    <TouchableOpacity
+                                        onPress={() => {
+    
+                                            setTexto('');
+                                        }}
+                                        style={styles.vwClear}>
+                                        <Image
+                                            style={styles.icClear}
+                                            source={require('../../../assets/ic_clear.png')} />
+                                    </TouchableOpacity>
+                                    : <View style={styles.vwClear} />*/
+                            }
+
                         </View>
 
-                        <TextInput
-                            value={texto}
-                            placeholder="Search"
-                            style={styles.textInput}
-                            onChangeText={handleTextoChange}
-                        ></TextInput>
-                        {
-                            /*texto ?
-                                <TouchableOpacity
-                                    onPress={() => {
+                    </View >
+                </View>
 
-                                        setTexto('');
-                                    }}
-                                    style={styles.vwClear}>
-                                    <Image
-                                        style={styles.icClear}
-                                        source={require('../../../assets/ic_clear.png')} />
-                                </TouchableOpacity>
-                                : <View style={styles.vwClear} />*/
-                        }
+                <Text style={style.titulo}>Top Questions</Text>
+                <View style={{
+                    flexDirection: "row", marginTop: width * 0.045, marginBottom: width * 0.045
+                }}>
+                    {
+                        Allcategory.map(c => (
+                            <TouchableOpacity
+                                onPress={() => filter(c)} //cuidado con el onpres
+                                key={c}
 
-                    </View>
-
-                </View >
-            </View>
-
-            <Text style={style.titulo}>Top Questions</Text>
-            <View style={{
-                flexDirection: "row", marginTop: width * 0.045, marginBottom: width * 0.045
-            }}>
-                {
-                    Allcategory.map(c => (
-                        <TouchableOpacity
-                            onPress={() => filter(c)} //cuidado con el onpres
-                            key={c}
-                            
-                        >
-                            <Text style={style.tituloSelec} >{c}</Text>
-                        </TouchableOpacity>
-                    ))
-                }
-            </View>
+                            >
+                                <Text style={style.tituloSelec} >{c}</Text>
+                            </TouchableOpacity>
+                        ))
+                    }
+                </View>
 
 
-            <View style={style.backgroundContainer}>
-                <SafeAreaView>
+                <View style={style.backgroundContainer}>
+                    <SafeAreaView>
 
-                    <View >
-                        {
-                        preguntas(texto)
-                        }
+                        <View >
+                            {
+                                preguntas(texto)
+                            }
 
-                    </View>
-                </SafeAreaView>
-            </View>
+                        </View>
+                    </SafeAreaView>
+                </View>
+                </ImageBackground>
+
         </View>
+        
     );
 }
 
@@ -268,9 +272,9 @@ const style = StyleSheet.create({
         marginLeft: '4%',
         backgroundColor: '#B900FF',
         borderRadius: width * 0.02,
-        height:width*0.07,
-        width:width*0.1,
-        textAlign:'center'
+        height: width * 0.07,
+        width: width * 0.1,
+        textAlign: 'center'
     },
     tituloSelec: {
         color: 'black',
@@ -280,9 +284,9 @@ const style = StyleSheet.create({
         marginLeft: '4%',
         backgroundColor: '#FFFAEE',
         borderRadius: width * 0.02,
-        height:width*0.07,
-        width:width*0.1,
-        textAlign:'center'
+        height: width * 0.07,
+        width: width * 0.1,
+        textAlign: 'center'
     },
     fondo: {
         backgroundColor: 'white',
